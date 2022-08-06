@@ -1,6 +1,8 @@
 const products = [];
 
 module.exports = class Product {
+  title;
+
   constructor(t) {
     this.title = t;
   }
