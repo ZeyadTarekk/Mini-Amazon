@@ -1,8 +1,13 @@
 const fs = require("fs");
 const path = require("path");
 
-const getPath = () =>
-  path.join(path.dirname(require.main.filename), "data", "products.json");
+const getPath = () => {
+  return path.join(
+    path.dirname(require.main.filename),
+    "data",
+    "products.json"
+  );
+};
 
 const getProductsFromFile = (callback) => {
   fs.readFile(getPath(), (err, fileContent) => {
