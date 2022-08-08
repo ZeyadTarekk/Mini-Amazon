@@ -13,7 +13,7 @@ exports.postAddProduct = (req, res, next) => {
   res.redirect("/");
 };
 
-exports.getProducts = (req, res, next) => {
+exports.getProductsList = (req, res, next) => {
   // res.sendFile(path.join(rootDir, "views", "shop.html"));
   Product.fetchAll((products) => {
     res.render("shop/product-list", {
