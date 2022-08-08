@@ -30,3 +30,13 @@ exports.getCart = (req, res, next) => {
     path: "/cart",
   });
 };
+
+exports.getProducts = (req, res, next) => {
+  Product.fetchAll((products) => {
+    res.render("shop/product-list", {
+      pageTitle: "Products",
+      prods: products,
+      path: "/products",
+    });
+  });
+};
