@@ -1,9 +1,12 @@
 const Product = require("../models/product");
 
 exports.getAdminProducts = (req, res, next) => {
-  res.render("admin/products.ejs", {
-    pageTitle: "Admin Products",
-    path: "/admin/products",
+  Product.fetchAll((products) => {
+    res.render("admin/products.ejs", {
+      pageTitle: "Admin Products",
+      path: "/admin/products",
+      prods: products,
+    });
   });
 };
 
