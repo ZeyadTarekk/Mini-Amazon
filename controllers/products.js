@@ -10,7 +10,7 @@ exports.getAddProduct = (req, res, next) => {
 exports.postAddProduct = (req, res, next) => {
   const product = new Product(req.body.title);
   product.save();
-  res.redirect("/");
+  res.redirect("/products");
 };
 
 exports.getCart = (req, res, next) => {
