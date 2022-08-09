@@ -21,7 +21,7 @@ module.exports = class Product {
   price;
   description;
   photo;
-  
+  id;
   constructor(tit, pr, desc, photo) {
     this.title = tit;
     this.price = pr;
@@ -30,6 +30,7 @@ module.exports = class Product {
   }
 
   save() {
+    this.id = Math.random().toString();
     getProductsFromFile((products) => {
       fs.writeFile(getPath(), JSON.stringify([...products, this]), (err) => {
         //that callback function attached to the readfile must be arrow function to make the this keyword point to the whole class
