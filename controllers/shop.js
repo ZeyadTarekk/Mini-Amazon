@@ -27,6 +27,17 @@ exports.getProductsList = (req, res, next) => {
   });
 };
 
+exports.getProudct = (req, res, next) => {
+  const prodId = req.params.productId;
+  console.log(prodId);
+
+  Product.fetchProductById(prodId, (product) => {
+    console.log(product);
+  });
+
+  res.send("Hello");
+};
+
 exports.getOrders = (req, res, next) => {
   res.render("shop/orders", {
     pageTitle: "Your Orders",

@@ -42,4 +42,15 @@ module.exports = class Product {
   static fetchAll(callback) {
     getProductsFromFile(callback);
   }
+
+  static fetchProductById(prodId, callback) {
+    getProductsFromFile((products) => {
+      products.forEach((element) => {
+        if (element.id == prodId) {
+          callback(element);
+        }
+        return;
+      });
+    });
+  }
 };
