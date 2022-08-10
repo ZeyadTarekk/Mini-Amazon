@@ -46,9 +46,7 @@ module.exports = class Product {
   static fetchProductById(prodId, callback) {
     getProductsFromFile((products) => {
       products.forEach((element) => {
-        if (element.id == prodId) {
-          callback(element);
-        }
+        if (element.id == prodId) callback(element);
         return;
       });
     });
