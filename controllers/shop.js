@@ -34,7 +34,7 @@ exports.getProudct = (req, res, next) => {
     res.render("shop/product-detail", {
       pageTitle: product.title,
       product: product,
-      path: "",
+      path: "/products",
     });
   });
 };
