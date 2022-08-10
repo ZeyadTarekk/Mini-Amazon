@@ -32,10 +32,12 @@ exports.getProudct = (req, res, next) => {
   console.log(prodId);
 
   Product.fetchProductById(prodId, (product) => {
-    console.log(product);
+    res.render("shop/product-detail", {
+      pageTitle: product.title,
+      product: product,
+      path: "",
+    });
   });
-
-  res.send("Hello");
 };
 
 exports.getOrders = (req, res, next) => {
