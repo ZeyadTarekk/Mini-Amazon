@@ -22,7 +22,8 @@ module.exports = class Product {
   description;
   photo;
   id;
-  constructor(tit, pr, desc, photo) {
+  constructor(id, tit, pr, desc, photo) {
+    this.id = id;
     this.title = tit;
     this.price = pr;
     this.description = desc;
@@ -30,12 +31,24 @@ module.exports = class Product {
   }
 
   save() {
-    this.id = Math.random().toString();
     getProductsFromFile((products) => {
-      fs.writeFile(getPath(), JSON.stringify([...products, this]), (err) => {
-        //that callback function attached to the readfile must be arrow function to make the this keyword point to the whole class
-        if (err) console.log(err);
-      });
+      if (this.id) {
+        const existingProductIndex = products.findIndex(
+          (prod) => prod.id === this.id
+        );
+        const updatedProducts = [...products];
+        updatedProducts[existingProductIndex] = this;
+        fs.writeFile(getPath(), JSON.stringify(updatedProducts), (err) => {
+          //that callback function attached to the readfile must be arrow function to make the this keyword point to the whole class
+          if (err) console.log(err);
+        });
+      } else {
+        this.id = Math.random().toString();
+        fs.writeFile(getPath(), JSON.stringify([...products, this]), (err) => {
+          //that callback function attached to the readfile must be arrow function to make the this keyword point to the whole class
+          if (err) console.log(err);
+        });
+      }
     });
   }
 

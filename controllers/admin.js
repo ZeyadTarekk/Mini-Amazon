@@ -38,24 +38,16 @@ exports.getEditProduct = (req, res, next) => {
 };
 
 exports.postEditProduct = (req, res, next) => {
-  const prodId = req.body.prodId;
-  const updatedProduct = {
-    title: req.body.title,
-    price: req.body.price,
-    description: req.body.desc,
-    photo: req.body.photo,
-    id: prodId,
-  };
+  const id = req.body.prodId;
+  const title = req.body.title;
+  const price = req.body.price;
+  const description = req.body.desc;
+  const photo = req.body.photo;
 
-  Product.fetchAll((products) => {
-    for (let i = 0; i < products.length; i++) {
-      if (products[i].id == prodId) {
-        products[i] = updatedProduct;
-      }
-    }
-    Product.saveProducts(products);
-    res.redirect("/");
-  });
+  const updatedProduct = new Product(id, title, price, description, photo);
+
+  updatedProduct.save();
+  res.redirect("/");
 };
 
 exports.postAddProduct = (req, res, next) => {
@@ -63,7 +55,7 @@ exports.postAddProduct = (req, res, next) => {
   const price = req.body.price;
   const description = req.body.desc;
   const photo = req.body.photo;
-  const product = new Product(title, price, description, photo);
+  const product = new Product(null, title, price, description, photo);
   product.save();
   res.redirect("/products");
 };
