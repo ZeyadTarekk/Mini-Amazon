@@ -64,4 +64,13 @@ module.exports = class Product {
       });
     });
   }
+
+  static deleteProduct(prodId) {
+    getProductsFromFile((products) => {
+      const newProducts = products.filter((prod) => prod.id != prodId);
+      fs.writeFile(getPath(), JSON.stringify(newProducts), (err) => {
+        if (err) console.log(err);
+      });
+    });
+  }
 };
