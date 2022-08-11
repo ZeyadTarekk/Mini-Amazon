@@ -7,25 +7,25 @@
    <%- include('../includes/navigation.ejs') %>
 
     <main>
-        <form class="product-form" action="/admin/add-product" method="POST">
+        <form class="product-form" action="/admin/<%= edit? 'edit-product' : 'add-product'%>" method="POST">
             <div class="form-control">
                 <label for="title">Title</label>
-                <input type="text" name="title" id="title">
+                <input type="text" name="title" id="title" value="<%= edit=='true'? prod.title : '' %>" >
             </div>
             <div class="form-control">
                 <label for="photo">Image URL</label>
-                <input type="text" name="photo" id="photo">
+                <input type="text" name="photo" id="photo" value="<%= edit=='true'? prod.photo : '' %>"  >
             </div>
             <div class="form-control">
                 <label for="price">Price</label>
-                <input type="number" name="price" id="price" step="0.01">
+                <input type="number" name="price" id="price" step="0.01" value="<%= edit=='true'? prod.price : '' %>">
             </div>
             <div class="form-control">
                 <label for="desc">Description</label>
-                <textarea name="desc" id="desc" rows="5"></textarea>
+                <textarea name="desc" id="desc" rows="5"><%= edit=='true'? prod.description : '' %></textarea>
             </div>
-
-            <button class="btn" type="submit">Add Product</button>
+            <% if(edit) { %><input type="hidden" name="prodId" value="prod.id"> <%}%>
+            <button class="btn" type="submit"><%= edit=='true'? 'Update Product' : 'Add Product' %></button>
         </form>
     </main>
 <%- include('../includes/end.ejs') %>
