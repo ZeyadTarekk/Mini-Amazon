@@ -3,4 +3,16 @@
 
     <body>
         <%- include('../includes/navigation.ejs') %>
+        <main>
+            <ul>
+                <% if(productsData.length>0){ %>
+                <%for(const prod of productsData){ %>
+                <li><%= prod.product.title %> (<%=prod.qty%>)</li>
+                <% }%>
+                <%}else{ %>
+                <h1>No Items in the cart</h1>
+
+                <%}%>
+                </ul>
+        </main>
         <%- include('../includes/end.ejs') %>
