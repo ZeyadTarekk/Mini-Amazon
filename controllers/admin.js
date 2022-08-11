@@ -50,7 +50,6 @@ exports.postEditProduct = (req, res, next) => {
   Product.fetchAll((products) => {
     for (let i = 0; i < products.length; i++) {
       if (products[i].id == prodId) {
-        console.log("Found");
         products[i] = updatedProduct;
       }
     }
