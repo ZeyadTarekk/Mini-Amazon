@@ -72,6 +72,7 @@ module.exports = class Product {
       const newProducts = products.filter((prod) => prod.id != prodId);
       fs.writeFile(getPath(), JSON.stringify(newProducts), (err) => {
         if (err) console.log(err);
+        else Cart.deleteItem(prodId, product.price);
       });
     });
   }
