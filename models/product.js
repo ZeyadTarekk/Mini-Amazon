@@ -64,11 +64,4 @@ module.exports = class Product {
       });
     });
   }
-
-  static saveProducts(prods) {
-    fs.writeFile(getPath(), JSON.stringify(prods), (err) => {
-      //that callback function attached to the readfile must be arrow function to make the this keyword point to the whole class
-      if (err) console.log(err);
-    });
-  }
 };
