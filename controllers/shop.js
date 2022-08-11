@@ -21,7 +21,7 @@ exports.postAddToCart = (req, res, next) => {
   const prodId = req.body.productId;
   // console.log(prodId);
   Product.fetchProductById(prodId, (product) => {
-    Cart.AddProductToCart(prodId, product.price);
+    Cart.addProductToCart(prodId, product.price);
   });
   res.redirect("/cart");
 };
