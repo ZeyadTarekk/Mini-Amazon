@@ -43,14 +43,19 @@ exports.postEditProduct = (req, res, next) => {
     title: req.body.title,
     price: req.body.price,
     description: req.body.desc,
+    photo: req.body.photo,
     id: prodId,
   };
 
   Product.fetchAll((products) => {
     for (let i = 0; i < products.length; i++) {
-      if (products[i].id == prodId) products[i] = updatedProduct;
+      if (products[i].id == prodId) {
+        console.log("Found");
+        products[i] = updatedProduct;
+      }
     }
     Product.saveProducts(products);
+    res.redirect("/");
   });
 };
 
