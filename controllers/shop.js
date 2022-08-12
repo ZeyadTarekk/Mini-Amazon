@@ -27,6 +27,13 @@ exports.getCart = (req, res, next) => {
   });
 };
 
+exports.postDeleteCartItem = (req, res, next) => {
+  const productId = req.body.prodId;
+  const productPrice = req.body.prodPrice;
+  Cart.deleteItem(productId, productPrice);
+  res.redirect("/cart");
+};
+
 exports.postAddToCart = (req, res, next) => {
   const prodId = req.body.productId;
   // console.log(prodId);
