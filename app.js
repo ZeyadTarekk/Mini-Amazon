@@ -16,10 +16,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(express.static(path.join(__dirname, "public")));
 
-db.execute("SELECT * from products").then((res) => {
-  console.log(res);
-});
-
 // admin/anyRoute
 app.use("/admin", adminRoutes);
 app.use(shopRoutes);
