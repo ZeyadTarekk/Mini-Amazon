@@ -42,13 +42,13 @@ exports.postAddToCart = (req, res, next) => {
   res.redirect("/cart");
 };
 
-exports.getProductsList = (req, res, next) => {
-  Product.fetchAll((products) => {
-    res.render("shop/product-list", {
-      pageTitle: "Products",
-      prods: products,
-      path: "/products",
-    });
+exports.getProductsList = async (req, res, next) => {
+  const results = await Product.fetchAll();
+  console.log(results[0]);
+  res.render("shop/product-list", {
+    pageTitle: "Products",
+    prods: results[0],
+    path: "/products",
   });
 };
 
