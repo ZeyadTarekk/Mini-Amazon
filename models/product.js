@@ -20,7 +20,9 @@ module.exports = class Product {
     return db.execute("SELECT * from products");
   }
 
-  static fetchProductById(prodId, callback) {}
+  static fetchProductById(prodId) {
+    return db.execute(`SELECT * from products WHERE id=${prodId}`);
+  }
 
   static deleteProduct(prodId) {}
 };

@@ -52,15 +52,15 @@ exports.getProductsList = async (req, res, next) => {
   });
 };
 
-exports.getProudct = (req, res, next) => {
+exports.getProudct = async (req, res, next) => {
   const prodId = req.params.productId;
 
-  Product.fetchProductById(prodId, (product) => {
-    res.render("shop/product-detail", {
-      pageTitle: product.title,
-      product: product,
-      path: "/products",
-    });
+  const results = await Product.fetchProductById(prodId);
+  console.log(results[0][0]);
+  res.render("shop/product-detail", {
+    pageTitle: results[0][0].title,
+    product: results[0][0],
+    path: "/products",
   });
 };
 
