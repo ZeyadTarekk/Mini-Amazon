@@ -56,12 +56,12 @@ exports.postDeleteProduct = (req, res, next) => {
   res.redirect("/admin/products");
 };
 
-exports.postAddProduct = (req, res, next) => {
+exports.postAddProduct = async (req, res, next) => {
   const title = req.body.title;
   const price = req.body.price;
   const description = req.body.desc;
   const photo = req.body.photo;
   const product = new Product(null, title, price, description, photo);
-  product.save();
+  const results = await product.save();
   res.redirect("/products");
 };
