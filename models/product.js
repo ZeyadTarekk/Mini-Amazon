@@ -14,7 +14,10 @@ module.exports = class Product {
     this.photo = photo;
   }
 
-  save() {}
+  save() {
+    const query = `INSERT INTO products (title, price, description, photoUrl) VALUES ("${this.title}", "${this.price}", "${this.description}", "${this.photo}")`;
+    db.execute(query);
+  }
 
   static fetchAll() {
     return db.execute("SELECT * from products");
