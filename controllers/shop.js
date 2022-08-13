@@ -44,7 +44,6 @@ exports.postAddToCart = (req, res, next) => {
 
 exports.getProductsList = async (req, res, next) => {
   const results = await Product.fetchAll();
-  console.log(results[0]);
   res.render("shop/product-list", {
     pageTitle: "Products",
     prods: results[0],
