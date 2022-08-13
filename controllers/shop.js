@@ -56,7 +56,6 @@ exports.getProudct = async (req, res, next) => {
   const prodId = req.params.productId;
 
   const results = await Product.fetchProductById(prodId);
-  console.log(results[0][0]);
   res.render("shop/product-detail", {
     pageTitle: results[0][0].title,
     product: results[0][0],
