@@ -19,7 +19,7 @@ exports.getAddProduct = (req, res, next) => {
   });
 };
 
-exports.getEditProduct = (req, res, next) => {
+exports.getEditProduct = async (req, res, next) => {
   const editMode = req.query.edit;
 
   if (!editMode) {
@@ -28,13 +28,12 @@ exports.getEditProduct = (req, res, next) => {
 
   const prodId = req.params.prodId;
 
-  Product.fetchProductById(prodId, (product) => {
-    res.render("admin/edit-product", {
-      pageTitle: "Edit Product",
-      path: "/admin/edit-product",
-      edit: editMode,
-      prod: product,
-    });
+  const product = await Product.findByPk(prodId);
+  res.render("admin/edit-product", {
+    pageTitle: "Edit Product",
+    path: "/admin/edit-product",
+    edit: editMode,
+    prod: product,
   });
 };
 
