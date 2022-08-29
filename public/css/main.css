@@ -191,6 +191,14 @@ form {
   text-align: center;
 }
 
+.image {
+  height: 20rem;
+}
+
+.image img {
+  height: 100%;
+}
+
 .btn:hover,
 .btn:active {
   background-color: #00695c;
