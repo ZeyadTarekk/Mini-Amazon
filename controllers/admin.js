@@ -37,16 +37,20 @@ exports.getEditProduct = async (req, res, next) => {
   });
 };
 
-exports.postEditProduct = (req, res, next) => {
+exports.postEditProduct = async (req, res, next) => {
   const id = req.body.prodId;
   const title = req.body.title;
   const price = req.body.price;
   const description = req.body.desc;
   const photo = req.body.photo;
 
-  const updatedProduct = new Product(id, title, price, description, photo);
+  const targetProduct = await Product.findByPk(id);
+  targetProduct.title = title;
+  targetProduct.price = price;
+  targetProduct.description = description;
+  targetProduct.imageUrl = photo;
 
-  updatedProduct.save();
+  await targetProduct.save();
   res.redirect("/admin/products");
 };
 
