@@ -55,10 +55,10 @@ exports.getProductsList = async (req, res, next) => {
 exports.getProudct = async (req, res, next) => {
   const prodId = req.params.productId;
 
-  const results = await Product.fetchProductById(prodId);
+  const results = await Product.findByPk(prodId);
   res.render("shop/product-detail", {
-    pageTitle: results[0][0].title,
-    product: results[0][0],
+    pageTitle: results.title,
+    product: results,
     path: "/products",
   });
 };
