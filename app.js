@@ -3,6 +3,9 @@ const bodyParser = require("body-parser");
 
 const path = require("path");
 
+const Product = require("./models/product");
+const User = require("./models/user");
+
 const sequelize = require("./util/database");
 const adminRoutes = require("./routes/admin");
 const shopRoutes = require("./routes/shop");
@@ -22,8 +25,12 @@ app.use(shopRoutes);
 
 app.use(errorController.get404);
 
+// Define releations between models
+Product.belongsTo(User, { constraints: true, onDelete: "CASCADE" });
+User.hasMany(Product);
+
 sequelize
-  .sync()
+  .sync({ force: true })
   .then((result) => {
     app.listen(3000);
   })
