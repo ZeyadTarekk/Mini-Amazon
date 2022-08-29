@@ -44,10 +44,10 @@ exports.postAddToCart = (req, res, next) => {
 };
 
 exports.getProductsList = async (req, res, next) => {
-  const results = await Product.fetchAll();
+  const results = await Product.findAll();
   res.render("shop/product-list", {
     pageTitle: "Products",
-    prods: results[0],
+    prods: results,
     path: "/products",
   });
 };
