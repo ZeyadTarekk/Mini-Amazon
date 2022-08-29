@@ -28,12 +28,12 @@ exports.getEditProduct = async (req, res, next) => {
 
   const prodId = req.params.prodId;
 
-  const product = await Product.findByPk(prodId);
+  const product = await req.user.getProducts({ where: { id: prodId } });
   res.render("admin/edit-product", {
     pageTitle: "Edit Product",
     path: "/admin/edit-product",
     edit: editMode,
-    prod: product,
+    prod: product[0],
   });
 };
 
