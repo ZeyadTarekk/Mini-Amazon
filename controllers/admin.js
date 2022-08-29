@@ -56,7 +56,8 @@ exports.postEditProduct = async (req, res, next) => {
 
 exports.postDeleteProduct = (req, res, next) => {
   const id = req.body.prodId;
-  Product.deleteProduct(id);
+  Product.destroy({ where: { id: id } });
+  // Product.deleteProduct(id);
   res.redirect("/admin/products");
 };
 
