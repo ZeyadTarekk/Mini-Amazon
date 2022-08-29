@@ -61,7 +61,14 @@ exports.postAddProduct = async (req, res, next) => {
   const price = req.body.price;
   const description = req.body.desc;
   const photo = req.body.photo;
-  const product = new Product(null, title, price, description, photo);
-  const results = await product.save();
+  Product.create({
+    title: title,
+    price: price,
+    imageUrl: photo,
+    description: description,
+  })
+    .then((result) => console.log("created Product"))
+    .catch((err) => console.log(err));
+
   res.redirect("/products");
 };
