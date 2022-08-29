@@ -19,6 +19,12 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(express.static(path.join(__dirname, "public")));
 
+app.use(async (req, res, next) => {
+  const dummyUser = await User.findByPk(1);
+  req.user = dummyUser;
+  next();
+});
+
 // admin/anyRoute
 app.use("/admin", adminRoutes);
 app.use(shopRoutes);
@@ -30,8 +36,20 @@ Product.belongsTo(User, { constraints: true, onDelete: "CASCADE" });
 User.hasMany(Product);
 
 sequelize
-  .sync({ force: true })
+  .sync()
   .then((result) => {
+    return User.findByPk(1);
+  })
+  .then((user) => {
+    if (!user) {
+      return User.create({
+        name: "zeyad",
+        email: "test@g.com",
+      });
+    }
+    return user;
+  })
+  .then((user) => {
     app.listen(3000);
   })
   .catch((err) => console.log(err));
