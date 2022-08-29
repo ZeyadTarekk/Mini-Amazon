@@ -1,7 +1,7 @@
 const Product = require("../models/product");
 
 exports.getAdminProducts = async (req, res, next) => {
-  const products = await Product.findAll();
+  const products = await req.user.getProducts();
   // Product.fetchAll((products) => {
   res.render("admin/products.ejs", {
     pageTitle: "Admin Products",
