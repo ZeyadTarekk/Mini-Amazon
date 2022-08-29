@@ -1,10 +1,11 @@
 const Product = require("../models/product");
 const Cart = require("../models/cart");
 exports.getIndex = async (req, res, next) => {
-  const results = await Product.fetchAll();
+  const products = await Product.findAll();
+
   res.render("shop/index", {
     pageTitle: "Shop",
-    prods: results[0],
+    prods: products,
     path: "/",
   });
 };

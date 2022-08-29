@@ -61,14 +61,14 @@ exports.postAddProduct = async (req, res, next) => {
   const price = req.body.price;
   const description = req.body.desc;
   const photo = req.body.photo;
-  Product.create({
+
+  await Product.create({
     title: title,
     price: price,
     imageUrl: photo,
     description: description,
-  })
-    .then((result) => console.log("created Product"))
-    .catch((err) => console.log(err));
+  });
+  console.log("created Product");
 
   res.redirect("/products");
 };
