@@ -56,6 +56,13 @@ sequelize
     return user;
   })
   .then((user) => {
+    return Cart.findByPk(1);
+  })
+  .then((cart) => {
+    if (!cart) return user.createCart();
+    return cart;
+  })
+  .then((cart) => {
     app.listen(3000);
   })
   .catch((err) => console.log(err));

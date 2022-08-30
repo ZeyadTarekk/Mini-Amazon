@@ -10,20 +10,14 @@ exports.getIndex = async (req, res, next) => {
   });
 };
 
-exports.getCart = (req, res, next) => {
-  Cart.getCart((cart) => {
-    Product.fetchAll((products) => {
-      const cartProducts = [];
-      for (product of products) {
-        const p = cart.products.find((element) => element.id == product.id);
-        if (p) cartProducts.push({ product: product, qty: p.qty });
-      }
-      res.render("shop/cart", {
-        pageTitle: "Cart",
-        path: "/cart",
-        productsData: cartProducts,
-      });
-    });
+exports.getCart = async (req, res, next) => {
+  const userCart = await req.user.getCart();
+  const cartProducts = await userCart.getProducts();
+
+  res.render("shop/cart", {
+    pageTitle: "Cart",
+    path: "/cart",
+    productsData: cartProducts,
   });
 };
 
