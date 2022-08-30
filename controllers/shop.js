@@ -1,5 +1,7 @@
 const Product = require("../models/product");
 const Cart = require("../models/cart");
+const Order = require("../models/order");
+
 exports.getIndex = async (req, res, next) => {
   const products = await Product.findAll();
 
@@ -77,4 +79,17 @@ exports.getOrders = (req, res, next) => {
     pageTitle: "Your Orders",
     path: "/orders",
   });
+};
+
+exports.postAddOrder = async (req, res, next) => {
+  const userCart = await req.user.getCart();
+  const products = await userCart.getProducts();
+  const order = await req.user.createOrder();
+  await order.addProducts(
+    products.map((prod) => {
+      prod.orderItem = { quantity: prod.cartItem.quantity };
+      return prod;
+    })
+  );
+  res.redirect("/orders");
 };
