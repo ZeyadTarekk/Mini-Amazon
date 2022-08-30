@@ -13,7 +13,6 @@ exports.getIndex = async (req, res, next) => {
 exports.getCart = async (req, res, next) => {
   const userCart = await req.user.getCart();
   const cartProducts = await userCart.getProducts();
-
   res.render("shop/cart", {
     pageTitle: "Cart",
     path: "/cart",
@@ -21,10 +20,18 @@ exports.getCart = async (req, res, next) => {
   });
 };
 
-exports.postDeleteCartItem = (req, res, next) => {
-  const productId = req.body.prodId;
+exports.postDeleteCartItem = async (req, res, next) => {
+  const productId = req.body.productId;
   const productPrice = req.body.prodPrice;
-  Cart.deleteItem(productId, productPrice);
+  console.log("productId", productId);
+  const userCart = await req.user.getCart();
+  const products = await userCart.getProducts({
+    where: { id: productId },
+  });
+  const productToRemove = products[0];
+  // console.log(productToRemove.cartItem);
+  await productToRemove.cartItem.destroy();
+  // Cart.deleteItem(productId, productPrice);
   res.redirect("/cart");
 };
 
