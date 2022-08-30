@@ -4,6 +4,25 @@
     <body>
         <%- include('../includes/navigation.ejs') %>
         <main>
+            <% if(orders.length<=0) { %>
             <h1>Nothing there!</h1>
+            <%} else { %>
+                <ul>
+                <% for(const order of orders){ %>
+                    
+                    <li>
+                        <h1># <%= order.id %></h1>
+                        <ul>
+                            <% for(const prod of order.products){ %>
+                                <li><%= prod.title %> (<%= prod.orderItem.quantity %>)</li>
+
+                            <% }%>
+                        </ul>
+                    </li>
+                
+                <% }%>
+                </ul>
+
+            <% }%>
         </main>
         <%- include('../includes/end.ejs') %>

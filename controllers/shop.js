@@ -74,10 +74,12 @@ exports.getProudct = async (req, res, next) => {
   });
 };
 
-exports.getOrders = (req, res, next) => {
+exports.getOrders = async (req, res, next) => {
+  const userOrders = await req.user.getOrders({ include: ["products"] });
   res.render("shop/orders", {
     pageTitle: "Your Orders",
     path: "/orders",
+    orders: userOrders,
   });
 };
 
@@ -91,5 +93,6 @@ exports.postAddOrder = async (req, res, next) => {
       return prod;
     })
   );
+  await userCart.setProducts(null);
   res.redirect("/orders");
 };
