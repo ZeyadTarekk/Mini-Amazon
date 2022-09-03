@@ -1,5 +1,4 @@
-const e = require("express");
-
+const mongodb = require("mongodb");
 const getDb = require("../util/database").getDb;
 class User {
   username;
@@ -15,8 +14,8 @@ class User {
   }
 
   async findById(userId) {
-    // const db = getDb();
-    // await db.collection("users").find();
+    const db = getDb();
+    return await db.collection("users").find({ _id: mongodb.ObjectId(userId) });
   }
 
   static async checkZeyad() {
