@@ -39,6 +39,18 @@ class User {
       );
   }
 
+  async addOrder() {
+    const db = getDb();
+    await db.collection("orders").insertOne(this.cart);
+    this.cart = { items: [] };
+    await db
+      .collection("users")
+      .updateOne(
+        { _id: mongodb.ObjectId(this._id) },
+        { $set: { cart: this.cart } }
+      );
+  }
+
   async getCart() {
     const db = getDb();
     const productIds = this.cart.items.map((prod) => prod.productId);

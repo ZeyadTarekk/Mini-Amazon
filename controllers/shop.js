@@ -1,6 +1,4 @@
 const Product = require("../models/product");
-const Cart = require("../models/cart");
-const Order = require("../models/order");
 
 exports.getIndex = async (req, res, next) => {
   const products = await Product.fetchAll();
@@ -63,15 +61,6 @@ exports.getOrders = async (req, res, next) => {
 };
 
 exports.postAddOrder = async (req, res, next) => {
-  const userCart = await req.user.getCart();
-  const products = await userCart.getProducts();
-  const order = await req.user.createOrder();
-  await order.addProducts(
-    products.map((prod) => {
-      prod.orderItem = { quantity: prod.cartItem.quantity };
-      return prod;
-    })
-  );
-  await userCart.setProducts(null);
+  await req.user.addOrder();
   res.redirect("/orders");
 };
