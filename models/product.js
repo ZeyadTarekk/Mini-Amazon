@@ -18,14 +18,11 @@ class Product {
 
   async save() {
     const db = getDb();
-    console.log(this);
-    if (this._id) {
+    if (this._id)
       return await db
         .collection("products")
         .updateOne({ _id: this._id }, { $set: this });
-    } else {
-      return await db.collection("products").insertOne(this);
-    }
+    else return await db.collection("products").insertOne(this);
   }
 
   static async fetchAll() {
