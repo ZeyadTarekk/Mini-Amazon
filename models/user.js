@@ -70,11 +70,36 @@ class User {
 
   async getCart() {
     const db = getDb();
-    const productIds = this.cart.items.map((prod) => prod.productId);
-    const cartProducts = await db
+    let productIds = this.cart.items.map((prod) => prod.productId);
+    let cartProducts = await db
       .collection("products")
       .find({ _id: { $in: productIds } })
       .toArray();
+    let needUpdate = false;
+    for (let i = 0; i < this.cart.items.length; i++) {
+      let found = false;
+      for (let j = 0; j < cartProducts.length; j++) {
+        if (
+          this.cart.items[i].productId.toString() ===
+          cartProducts[j]._id.toString()
+        ) {
+          found = true;
+          continue;
+        }
+      }
+      if (!found) {
+        needUpdate = true;
+        this.cart.items.splice(i, 1);
+      }
+    }
+    if (needUpdate)
+      await db
+        .collection("users")
+        .updateOne(
+          { _id: mongodb.ObjectId(this._id) },
+          { $set: { cart: { items: this.cart.items } } }
+        );
+
     const cartProductsWithQuantity = cartProducts.map((el) => {
       return {
         ...el,
