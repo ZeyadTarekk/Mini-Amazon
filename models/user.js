@@ -2,11 +2,11 @@ const mongodb = require("mongodb");
 const { postDeleteCartItem } = require("../controllers/shop");
 const getDb = require("../util/database").getDb;
 class User {
-  username;
+  name;
   email;
   cart;
-  constructor(username, email, cart, id) {
-    this.username = username;
+  constructor(name, email, cart, id) {
+    this.name = name;
     this.email = email;
     this.cart = cart ? cart : [];
     this._id = id;
@@ -40,8 +40,16 @@ class User {
   }
 
   async addOrder() {
+    const products = await this.getCart();
+    const order = {
+      items: products,
+      user: {
+        _id: mongodb.ObjectId(this._id),
+        name: this.name,
+      },
+    };
     const db = getDb();
-    await db.collection("orders").insertOne(this.cart);
+    await db.collection("orders").insertOne(order);
     this.cart = { items: [] };
     await db
       .collection("users")
@@ -49,6 +57,12 @@ class User {
         { _id: mongodb.ObjectId(this._id) },
         { $set: { cart: this.cart } }
       );
+  }
+
+  async getOrders() {
+    const db = getDb();
+    // const orders = await db.collection("orders").find().toArray();
+    // console.log(orders.items);
   }
 
   async getCart() {
