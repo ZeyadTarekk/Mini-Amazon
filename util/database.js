@@ -4,9 +4,13 @@ const MongoClient = mongodb.MongoClient;
 
 let db;
 const mongoConnect = async () => {
-  const connectionString = `mongodb+srv://${process.env.user}:${process.env.password}@cluster0.xbhna.mongodb.net/shop?retryWrites=true&w=majority`;
-  const client = await MongoClient.connect(connectionString);
-  db = client.db();
+  try {
+    const connectionString = `mongodb://localhost:27017`;
+    const client = await MongoClient.connect(connectionString);
+    db = client.db("shop");
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 const getDb = () => {
