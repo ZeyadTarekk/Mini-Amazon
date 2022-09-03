@@ -2,11 +2,16 @@ const mongodb = require("mongodb");
 require("dotenv").config();
 const MongoClient = mongodb.MongoClient;
 
+let db;
 const mongoConnect = async () => {
-  const connectionString = `mongodb+srv://${process.env.user}:${process.env.password}@cluster0.xbhna.mongodb.net/?retryWrites=true&w=majority`;
-  console.log(connectionString);
+  const connectionString = `mongodb+srv://${process.env.user}:${process.env.password}@cluster0.xbhna.mongodb.net/shop?retryWrites=true&w=majority`;
   const client = await MongoClient.connect(connectionString);
-  return client;
+  db = client.db();
 };
 
-module.exports = mongoConnect;
+const getDb = () => {
+  if (db) return db;
+};
+
+exports.mongoConnect = mongoConnect;
+exports.getDb = getDb;
