@@ -2,7 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const path = require("path");
 
-const mongoConnect = require("./util/database");
+const databaseObject = require("./util/database");
 
 const adminRoutes = require("./routes/admin");
 const shopRoutes = require("./routes/shop");
@@ -16,21 +16,20 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(express.static(path.join(__dirname, "public")));
 
-app.use(async (req, res, next) => {
-  // const dummyUser = await User.findByPk(1);
-  // req.user = dummyUser;
-  // next();
-});
+// app.use(async (req, res, next) => {
+// req.user = dummyUser;
+// next();
+// });
 
 // admin/anyRoute
-// app.use("/admin", adminRoutes);
-// app.use(shopRoutes);
+app.use("/admin", adminRoutes);
+app.use(shopRoutes);
 
-// app.use(errorController.get404);
+app.use(errorController.get404);
 
 const main = async () => {
-  const client = await mongoConnect();
-  console.log(client);
+  await databaseObject.mongoConnect();
+  console.log("Listen");
   app.listen(3000);
 };
 

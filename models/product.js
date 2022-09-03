@@ -15,6 +15,10 @@ class Product {
     const db = getDb();
     return await db.collection("products").insertOne(this);
   }
+
+  static async fetchAll() {
+    return await getDb().collection("products").find().toArray();
+  }
 }
 
 module.exports = Product;

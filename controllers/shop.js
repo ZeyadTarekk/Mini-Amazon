@@ -3,8 +3,7 @@ const Cart = require("../models/cart");
 const Order = require("../models/order");
 
 exports.getIndex = async (req, res, next) => {
-  const products = await Product.findAll();
-
+  const products = await Product.fetchAll();
   res.render("shop/index", {
     pageTitle: "Shop",
     prods: products,
@@ -55,7 +54,7 @@ exports.postAddToCart = async (req, res, next) => {
 };
 
 exports.getProductsList = async (req, res, next) => {
-  const results = await Product.findAll();
+  const results = await Product.fetchAll();
   res.render("shop/product-list", {
     pageTitle: "Products",
     prods: results,
