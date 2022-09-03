@@ -11,7 +11,7 @@ class Product {
     this.price = price;
     this.description = description;
     this.imageUrl = imageUrl;
-    this._id = mongodb.ObjectId(id);
+    if (id) this._id = mongodb.ObjectId(id);
   }
 
   async save() {
@@ -21,7 +21,6 @@ class Product {
         .collection("products")
         .updateOne({ _id: this._id }, { $set: this });
     } else {
-      console.log("Entered insert");
       return await db.collection("products").insertOne(this);
     }
   }
