@@ -35,6 +35,12 @@ class Product {
       .find({ _id: mongodb.ObjectId(prodId) })
       .next();
   }
+
+  static async deleteById(prodId) {
+    return await getDb()
+      .collection("products")
+      .deleteOne({ _id: mongodb.ObjectId(prodId) });
+  }
 }
 
 module.exports = Product;
