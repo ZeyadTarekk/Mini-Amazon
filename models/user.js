@@ -10,25 +10,15 @@ class User {
 
   async save() {
     const db = getDb();
-    await db.collection("users").insertOne(this);
+    return await db.collection("users").insertOne(this);
   }
 
-  async findById(userId) {
+  static async findById(userId) {
     const db = getDb();
     return await db
       .collection("users")
       .find({ _id: mongodb.ObjectId(userId) })
       .next();
-  }
-
-  static async checkZeyad() {
-    const db = getDb();
-    const users = await db
-      .collection("users")
-      .find({ username: "zeyad" })
-      .next();
-    if (users) return true;
-    else return false;
   }
 }
 module.exports = User;
