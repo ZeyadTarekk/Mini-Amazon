@@ -15,7 +15,10 @@ class User {
 
   async findById(userId) {
     const db = getDb();
-    return await db.collection("users").find({ _id: mongodb.ObjectId(userId) });
+    return await db
+      .collection("users")
+      .find({ _id: mongodb.ObjectId(userId) })
+      .next();
   }
 
   static async checkZeyad() {
