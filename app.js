@@ -1,6 +1,9 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const path = require("path");
+
+const mongoose = require("mongoose");
+
 const User = require("./models/user");
 const databaseObject = require("./util/database");
 
@@ -30,7 +33,10 @@ app.use(shopRoutes);
 app.use(errorController.get404);
 
 const main = async () => {
-  await databaseObject.mongoConnect();
+  // await databaseObject.mongoConnect();
+  await mongoose.connect(
+    `mongodb+srv://${process.env.user}:${process.env.password}@cluster0.xbhna.mongodb.net/shop?retryWrites=true&w=majority`
+  );
   app.listen(3000);
 };
 
