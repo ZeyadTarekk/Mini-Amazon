@@ -60,7 +60,7 @@ class User {
   async deleteCartItem(prodId) {
     const db = getDb();
     const updatedCart = {
-      items: this.cart.items.filter((el) => el.productId.toString() != prodId),
+      items: this.cart.items.filter((el) => el.productId.toString() !== prodId),
     };
 
     db.collection("users").updateOne(
