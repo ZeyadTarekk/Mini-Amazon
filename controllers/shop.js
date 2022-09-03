@@ -37,21 +37,6 @@ exports.postAddToCart = async (req, res, next) => {
   const prodId = req.body.productId;
   const product = await Product.findById(prodId);
   req.user.addToCart(product);
-  // const userCart = await req.user.getCart();
-  // const products = await userCart.getProducts({ where: { id: prodId } });
-  // let product;
-  // if (products.length > 0) product = products[0];
-  // let newQuantity = 1;
-  // if (product) {
-  //   // Increase qty
-  //   const oldQuantity = product.cartItem.quantity;
-  //   newQuantity = oldQuantity + 1;
-  // }
-  // const actualProduct = await Product.findByPk(prodId);
-  // await userCart.addProduct(actualProduct, {
-  //   through: { quantity: newQuantity },
-  // });
-
   res.redirect("/cart");
 };
 
