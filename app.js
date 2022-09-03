@@ -29,7 +29,6 @@ app.use(errorController.get404);
 
 const main = async () => {
   await databaseObject.mongoConnect();
-  console.log("Listen");
   app.listen(3000);
 };
 
