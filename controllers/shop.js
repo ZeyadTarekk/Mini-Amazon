@@ -12,8 +12,7 @@ exports.getIndex = async (req, res, next) => {
 };
 
 exports.getCart = async (req, res, next) => {
-  const userCart = await req.user.getCart();
-  const cartProducts = await userCart.getProducts();
+  const cartProducts = await req.user.getCart();
   res.render("shop/cart", {
     pageTitle: "Cart",
     path: "/cart",

@@ -38,6 +38,25 @@ class User {
       );
   }
 
+  async getCart() {
+    const db = getDb();
+    const productIds = this.cart.items.map((prod) => prod.productId);
+    const cartProducts = await db
+      .collection("products")
+      .find({ _id: { $in: productIds } })
+      .toArray();
+    console.log(cartProducts);
+    const cartProductsWithQuantity = cartProducts.map((el) => {
+      return {
+        ...el,
+        quantity: this.cart.items.find(
+          (i) => i.productId.toString() === el._id.toString()
+        ).quantity,
+      };
+    });
+    return cartProductsWithQuantity;
+  }
+
   static async findById(userId) {
     const db = getDb();
     return await db
