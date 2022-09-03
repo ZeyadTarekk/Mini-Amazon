@@ -1,6 +1,5 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-
 const path = require("path");
 
 const mongoConnect = require("./util/database");
@@ -24,10 +23,10 @@ app.use(async (req, res, next) => {
 });
 
 // admin/anyRoute
-app.use("/admin", adminRoutes);
-app.use(shopRoutes);
+// app.use("/admin", adminRoutes);
+// app.use(shopRoutes);
 
-app.use(errorController.get404);
+// app.use(errorController.get404);
 
 const main = async () => {
   const client = await mongoConnect();
