@@ -1,7 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const path = require("path");
-
+const User = require("./models/user");
 const databaseObject = require("./util/database");
 
 const adminRoutes = require("./routes/admin");
@@ -16,10 +16,14 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(express.static(path.join(__dirname, "public")));
 
-// app.use(async (req, res, next) => {
-// req.user = dummyUser;
-// next();
-// });
+app.use(async (req, res, next) => {
+  const userState = await User.checkZeyad();
+  if (!userState) {
+    const user = new User("zeyad", "zeyad@g.com");
+    user.save();
+  }
+  next();
+});
 
 // admin/anyRoute
 app.use("/admin", adminRoutes);
