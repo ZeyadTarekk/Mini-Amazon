@@ -1,4 +1,5 @@
 const mongodb = require("mongodb");
+const { postDeleteCartItem } = require("../controllers/shop");
 const getDb = require("../util/database").getDb;
 class User {
   username;
@@ -45,7 +46,6 @@ class User {
       .collection("products")
       .find({ _id: { $in: productIds } })
       .toArray();
-    console.log(cartProducts);
     const cartProductsWithQuantity = cartProducts.map((el) => {
       return {
         ...el,
@@ -55,6 +55,18 @@ class User {
       };
     });
     return cartProductsWithQuantity;
+  }
+
+  async deleteCartItem(prodId) {
+    const db = getDb();
+    const updatedCart = {
+      items: this.cart.items.filter((el) => el.productId.toString() != prodId),
+    };
+
+    db.collection("users").updateOne(
+      { _id: mongodb.ObjectId(this._id) },
+      { $set: { cart: updatedCart } }
+    );
   }
 
   static async findById(userId) {
