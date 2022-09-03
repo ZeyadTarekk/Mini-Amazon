@@ -61,8 +61,8 @@ class User {
 
   async getOrders() {
     const db = getDb();
-    // const orders = await db.collection("orders").find().toArray();
-    // console.log(orders.items);
+    const orders = await db.collection("orders").find().toArray();
+    return orders;
   }
 
   async getCart() {

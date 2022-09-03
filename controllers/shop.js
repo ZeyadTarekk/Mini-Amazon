@@ -52,7 +52,7 @@ exports.getProudct = async (req, res, next) => {
 };
 
 exports.getOrders = async (req, res, next) => {
-  const userOrders = await req.user.getOrders({ include: ["products"] });
+  const userOrders = await req.user.getOrders();
   res.render("shop/orders", {
     pageTitle: "Your Orders",
     path: "/orders",
