@@ -5,16 +5,34 @@ class Product {
   price;
   description;
   imageUrl;
-  constructor(title, price, description, imageUrl) {
+  _id;
+  constructor(title, price, description, imageUrl, id) {
     this.title = title;
     this.price = price;
     this.description = description;
     this.imageUrl = imageUrl;
+    this._id = id;
   }
 
   async save() {
     const db = getDb();
-    return await db.collection("products").insertOne(this);
+    if (this._id) {
+      console.log("Entered save");
+      return await db.collection("products").updateOne(
+        { _id: mongodb.ObjectId(this._id) },
+        {
+          $set: {
+            title: this.title,
+            price: this.price,
+            description: this.description,
+            imageUrl: this.imageUrl,
+          },
+        }
+      );
+    } else {
+      console.log("Entered insert");
+      return await db.collection("products").insertOne(this);
+    }
   }
 
   static async fetchAll() {
