@@ -39,8 +39,6 @@ exports.getEditProduct = async (req, res, next) => {
 
 exports.postEditProduct = async (req, res, next) => {
   const id = req.body.prodId;
-  console.log("Entered post edit");
-  console.log(id);
   const title = req.body.title;
   const price = req.body.price;
   const description = req.body.desc;

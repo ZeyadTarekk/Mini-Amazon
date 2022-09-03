@@ -11,24 +11,15 @@ class Product {
     this.price = price;
     this.description = description;
     this.imageUrl = imageUrl;
-    this._id = id;
+    this._id = mongodb.ObjectId(id);
   }
 
   async save() {
     const db = getDb();
     if (this._id) {
-      console.log("Entered save");
-      return await db.collection("products").updateOne(
-        { _id: mongodb.ObjectId(this._id) },
-        {
-          $set: {
-            title: this.title,
-            price: this.price,
-            description: this.description,
-            imageUrl: this.imageUrl,
-          },
-        }
-      );
+      return await db
+        .collection("products")
+        .updateOne({ _id: this._id }, { $set: this });
     } else {
       console.log("Entered insert");
       return await db.collection("products").insertOne(this);
