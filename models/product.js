@@ -6,16 +6,19 @@ class Product {
   description;
   imageUrl;
   _id;
-  constructor(title, price, description, imageUrl, id) {
+  userId;
+  constructor(title, price, description, imageUrl, id, userId) {
     this.title = title;
     this.price = price;
     this.description = description;
     this.imageUrl = imageUrl;
     if (id) this._id = mongodb.ObjectId(id);
+    this.userId = userId;
   }
 
   async save() {
     const db = getDb();
+    console.log(this);
     if (this._id) {
       return await db
         .collection("products")
