@@ -1,13 +1,11 @@
-const Sequelize = require("sequelize");
-require("dotenv").config();
-const sequelize = new Sequelize(
-  process.env.databasename,
-  process.env.user,
-  process.env.password,
-  {
-    dialect: "mysql",
-    host: process.env.host,
-  }
-);
+const mongodb = require("mongodb");
+const MongoClient = mongodb.MongoClient;
 
-module.exports = sequelize;
+const mongoConnect = async () => {
+  const client = await MongoClient.connect(
+    "mongodb+srv://zeyad:1234@cluster0.xbhna.mongodb.net/?retryWrites=true&w=majority"
+  );
+  return client;
+};
+
+module.exports = mongoConnect;
