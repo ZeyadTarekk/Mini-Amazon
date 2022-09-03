@@ -3,14 +3,39 @@ const getDb = require("../util/database").getDb;
 class User {
   username;
   email;
-  constructor(username, email) {
+  cart;
+  constructor(username, email, cart, id) {
     this.username = username;
     this.email = email;
+    this.cart = cart;
+    this._id = id;
   }
 
   async save() {
     const db = getDb();
     return await db.collection("users").insertOne(this);
+  }
+
+  async addToCart(product) {
+    const cartProductIndex = this.cart.items.findIndex(
+      (prod) => prod.productId.toString() === product._id.toString()
+    );
+    let updatedCart;
+    if (cartProductIndex != -1) {
+      this.cart.items[cartProductIndex].quantity++;
+      updatedCart = this.cart;
+    } else
+      updatedCart = {
+        items: [...this.cart.items, { productId: product._id, quantity: 1 }],
+      };
+
+    const db = getDb();
+    return await db
+      .collection("users")
+      .updateOne(
+        { _id: mongodb.ObjectId(this._id) },
+        { $set: { cart: updatedCart } }
+      );
   }
 
   static async findById(userId) {
