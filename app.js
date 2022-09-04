@@ -34,9 +34,7 @@ app.use(errorController.get404);
 
 const main = async () => {
   // await databaseObject.mongoConnect();
-  await mongoose.connect(
-    `mongodb+srv://${process.env.user}:${process.env.password}@cluster0.xbhna.mongodb.net/shop?retryWrites=true&w=majority`
-  );
+  await mongoose.connect(`mongodb://localhost:27017/shop`);
   app.listen(3000);
 };
 
