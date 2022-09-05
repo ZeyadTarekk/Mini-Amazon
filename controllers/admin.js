@@ -48,14 +48,14 @@ exports.postEditProduct = async (req, res, next) => {
   product.description = description;
   product.imageUrl = photo;
 
-  const newProd = await product.save();
-  
+  await product.save();
+
   res.redirect("/admin/products");
 };
 
 exports.postDeleteProduct = async (req, res, next) => {
   const id = req.body.prodId;
-  await Product.deleteById(id);
+  await Product.deleteOne({ id: id });
   res.redirect("/admin/products");
 };
 
