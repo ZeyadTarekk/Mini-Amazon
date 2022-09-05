@@ -16,6 +16,6 @@ router.get("/products/:productId", shopController.getProudct);
 
 // router.get("/orders", shopController.getOrders);
 
-// router.post("/create-order", shopController.postAddOrder);
+router.post("/create-order", shopController.postAddOrder);
 
 module.exports = router;
