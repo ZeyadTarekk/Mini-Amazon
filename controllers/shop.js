@@ -32,7 +32,7 @@ exports.postAddToCart = async (req, res, next) => {
 };
 
 exports.getProductsList = async (req, res, next) => {
-  const results = await Product.fetchAll();
+  const results = await Product.find();
   res.render("shop/product-list", {
     pageTitle: "Products",
     prods: results,
