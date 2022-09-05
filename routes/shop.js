@@ -14,7 +14,7 @@ router.get("/products", shopController.getProductsList);
 
 router.get("/products/:productId", shopController.getProudct);
 
-// router.get("/orders", shopController.getOrders);
+router.get("/orders", shopController.getOrders);
 
 router.post("/create-order", shopController.postAddOrder);
 

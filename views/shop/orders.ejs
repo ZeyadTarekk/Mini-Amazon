@@ -14,8 +14,8 @@
                     <li class="orders__item">
                         <h1>Order - # <%= order._id %></h1>
                         <ul class="orders__products">
-                            <% for(const prod of order.items){ %>
-                                <li class="orders__products-item"><%= prod.title %> (<%= prod.quantity %>)</li>
+                            <% for(const prod of order.products){ %>
+                                <li class="orders__products-item"><%= prod.product.title %> (<%= prod.quantity %>)</li>
 
                             <% }%>
                         </ul>

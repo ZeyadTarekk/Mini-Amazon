@@ -54,7 +54,7 @@ exports.getProudct = async (req, res, next) => {
 };
 
 exports.getOrders = async (req, res, next) => {
-  const userOrders = await req.user.getOrders();
+  const userOrders = await Order.find({ "user.userId": req.user._id });
   res.render("shop/orders", {
     pageTitle: "Your Orders",
     path: "/orders",
@@ -78,6 +78,6 @@ exports.postAddOrder = async (req, res, next) => {
   });
   await order.save();
   await req.user.clearCart();
-  
+
   res.redirect("/orders");
 };
