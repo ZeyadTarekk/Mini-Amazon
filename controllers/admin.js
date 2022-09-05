@@ -1,14 +1,12 @@
 const Product = require("../models/product");
 
 exports.getAdminProducts = async (req, res, next) => {
-  const products = await Product.fetchAll();
-  // Product.fetchAll((products) => {
+  const products = await Product.find();
   res.render("admin/products.ejs", {
     pageTitle: "Admin Products",
     path: "/admin/products",
     prods: products,
   });
-  // });
 };
 
 exports.getAddProduct = (req, res, next) => {
