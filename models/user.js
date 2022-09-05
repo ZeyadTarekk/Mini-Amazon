@@ -44,4 +44,11 @@ userSchema.methods.addToCart = async function (product) {
   return await this.save();
 };
 
+userSchema.methods.removeFromCart = async function (prodId) {
+  const updatedCart = {
+    items: this.cart.items.filter((el) => el.productId.toString() !== prodId),
+  };
+  this.cart = updatedCart;
+  return await this.save();
+};
 module.exports = mongoose.model("User", userSchema);
