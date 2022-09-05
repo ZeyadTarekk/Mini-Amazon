@@ -8,6 +8,7 @@
             <% if(orders.length<=0) { %>
             <h1>Nothing there!</h1>
             <%} else { %>
+                <h3 class="centered">Total Orders: <%=orders.length %></h3>
                 <ul class="orders">
                 <% for(const order of orders){ %>
                     
