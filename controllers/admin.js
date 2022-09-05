@@ -42,9 +42,14 @@ exports.postEditProduct = async (req, res, next) => {
   const description = req.body.desc;
   const photo = req.body.photo;
 
-  const targetProduct = new Product(title, price, description, photo, id);
+  const product = await Product.findById(id);
+  product.title = title;
+  product.price = price;
+  product.description = description;
+  product.imageUrl = photo;
 
-  await targetProduct.save();
+  const newProd = await product.save();
+  
   res.redirect("/admin/products");
 };
 
