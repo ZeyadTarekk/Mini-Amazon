@@ -5,7 +5,6 @@ const path = require("path");
 const mongoose = require("mongoose");
 
 const User = require("./models/user");
-const databaseObject = require("./util/database");
 
 const adminRoutes = require("./routes/admin");
 const shopRoutes = require("./routes/shop");
@@ -35,6 +34,9 @@ app.use(errorController.get404);
 const main = async () => {
   // await databaseObject.mongoConnect();
   await mongoose.connect(`mongodb://localhost:27017/shop`);
+
+
+
   app.listen(3000);
 };
 
