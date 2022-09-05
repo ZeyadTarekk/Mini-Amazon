@@ -1,4 +1,5 @@
 const Product = require("../models/product");
+const User = require("../models/user");
 
 exports.getIndex = async (req, res, next) => {
   const products = await Product.find();
@@ -10,11 +11,15 @@ exports.getIndex = async (req, res, next) => {
 };
 
 exports.getCart = async (req, res, next) => {
-  const cartProducts = await req.user.getCart();
+  // const cartProducts = await req.user.getCartProducts();
+
+  const userPopulated = await req.user.populate("cart.items.productId");
+  const cartItems = userPopulated.cart.items;
+  console.log(cartItems);
   res.render("shop/cart", {
     pageTitle: "Cart",
     path: "/cart",
-    productsData: cartProducts,
+    productsData: userPopulated.cart.items,
   });
 };
 
