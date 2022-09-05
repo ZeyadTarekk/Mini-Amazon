@@ -11,15 +11,12 @@ exports.getIndex = async (req, res, next) => {
 };
 
 exports.getCart = async (req, res, next) => {
-  // const cartProducts = await req.user.getCartProducts();
-
   const userPopulated = await req.user.populate("cart.items.productId");
   const cartItems = userPopulated.cart.items;
-  console.log(cartItems);
   res.render("shop/cart", {
     pageTitle: "Cart",
     path: "/cart",
-    productsData: userPopulated.cart.items,
+    productsData: cartItems,
   });
 };
 
