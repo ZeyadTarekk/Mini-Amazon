@@ -77,6 +77,7 @@ exports.postAddOrder = async (req, res, next) => {
     products: cartItems,
   });
   await order.save();
-
+  await req.user.clearCart();
+  
   res.redirect("/orders");
 };
