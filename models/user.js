@@ -27,4 +27,21 @@ const userSchema = new Schema({
   },
 });
 
+userSchema.methods.addToCart = async function (product) {
+  const cartProductIndex = this.cart.items.findIndex(
+    (prod) => prod.productId.toString() === product._id.toString()
+  );
+  let updatedCart;
+  if (cartProductIndex != -1) {
+    this.cart.items[cartProductIndex].quantity++;
+    updatedCart = this.cart;
+  } else
+    updatedCart = {
+      items: [...this.cart.items, { productId: product._id, quantity: 1 }],
+    };
+
+  this.cart = updatedCart;
+  return await this.save();
+};
+
 module.exports = mongoose.model("User", userSchema);
