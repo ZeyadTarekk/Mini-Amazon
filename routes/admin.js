@@ -4,10 +4,10 @@ const router = express.Router();
 const adminController = require("../controllers/admin");
 
 // admin/add-product
-// router.get("/add-product", adminController.getAddProduct);
+router.get("/add-product", adminController.getAddProduct);
 
-// // admin/product
-// router.post("/add-product", adminController.postAddProduct);
+// admin/product
+router.post("/add-product", adminController.postAddProduct);
 
 // router.post("/edit-product", adminController.postEditProduct);
 
