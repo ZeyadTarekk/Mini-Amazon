@@ -3,7 +3,7 @@ const Order = require("../models/order");
 
 exports.getIndex = async (req, res, next) => {
   const products = await Product.find();
-  const isLoggedIn = req.get("Cookie").split(";")[2].trim().split("=")[1];
+  const isLoggedIn = req.get("Cookie").split(";")[0].trim().split("=")[1];
   res.render("shop/index", {
     pageTitle: "Shop",
     prods: products,
