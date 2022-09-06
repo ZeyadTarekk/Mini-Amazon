@@ -36,11 +36,11 @@ app.use(
   })
 );
 
-app.use(async (req, res, next) => {
-  const user = await User.findById("6315e6995c4dc2cb6c8c58c5");
-  req.user = user;
-  next();
-});
+// app.use(async (req, res, next) => {
+//   const user = await User.findById("6315e6995c4dc2cb6c8c58c5");
+//   req.user = user;
+//   next();
+// });
 
 // admin/anyRoute
 app.use("/admin", adminRoutes);
