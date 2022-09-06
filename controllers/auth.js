@@ -1,5 +1,4 @@
 exports.getLogin = (req, res, next) => {
-  console.log(req.session);
   res.render("auth/login", {
     path: "/login",
     pageTitle: "Login",
