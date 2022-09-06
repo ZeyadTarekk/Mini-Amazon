@@ -7,30 +7,31 @@ exports.getIndex = async (req, res, next) => {
     pageTitle: "Shop",
     prods: products,
     path: "/",
-    isAuthenticated: false,
+    isAuthenticated: req.session.isLoggedIn,
   });
 };
 
 exports.getCart = async (req, res, next) => {
-  const userPopulated = await req.user.populate("cart.items.productId");
+  const userPopulated = await req.session.user.populate("cart.items.productId");
   const cartItems = userPopulated.cart.items;
   res.render("shop/cart", {
     pageTitle: "Cart",
     path: "/cart",
     productsData: cartItems,
+    isAuthenticated: req.session.isLoggedIn,
   });
 };
 
 exports.postDeleteCartItem = async (req, res, next) => {
   const productId = req.body.productId;
-  await req.user.removeFromCart(productId);
+  await req.session.user.removeFromCart(productId);
   res.redirect("/cart");
 };
 
 exports.postAddToCart = async (req, res, next) => {
   const prodId = req.body.productId;
   const product = await Product.findById(prodId);
-  req.user.addToCart(product);
+  req.session.user.addToCart(product);
   res.redirect("/cart");
 };
 
@@ -40,6 +41,7 @@ exports.getProductsList = async (req, res, next) => {
     pageTitle: "Products",
     prods: results,
     path: "/products",
+    isAuthenticated: req.session.isLoggedIn,
   });
 };
 
@@ -51,20 +53,22 @@ exports.getProudct = async (req, res, next) => {
     pageTitle: result.title,
     product: result,
     path: "/products",
+    isAuthenticated: req.session.isLoggedIn,
   });
 };
 
 exports.getOrders = async (req, res, next) => {
-  const userOrders = await Order.find({ "user.userId": req.user._id });
+  const userOrders = await Order.find({ "user.userId": req.session.user._id });
   res.render("shop/orders", {
     pageTitle: "Your Orders",
     path: "/orders",
     orders: userOrders,
+    isAuthenticated: req.session.isLoggedIn,
   });
 };
 
 exports.postAddOrder = async (req, res, next) => {
-  const userPopulated = await req.user.populate("cart.items.productId");
+  const userPopulated = await req.session.user.populate("cart.items.productId");
 
   const cartItems = userPopulated.cart.items.map((el) => {
     return { quantity: el.quantity, product: { ...el.productId._doc } };
@@ -72,13 +76,13 @@ exports.postAddOrder = async (req, res, next) => {
 
   const order = new Order({
     user: {
-      name: req.user.name,
-      userId: req.user._id,
+      name: req.session.user.name,
+      userId: req.session.user._id,
     },
     products: cartItems,
   });
   await order.save();
-  await req.user.clearCart();
+  await req.session.user.clearCart();
 
   res.redirect("/orders");
 };
