@@ -1,6 +1,5 @@
 const User = require("../models/user");
 exports.getLogin = (req, res, next) => {
-  console.log(req.session.user);
   res.render("auth/login", {
     path: "/login",
     pageTitle: "Login",
