@@ -45,9 +45,13 @@ exports.postLogin = async (req, res, next) => {
 };
 
 exports.getSignup = (req, res, next) => {
+  let message = req.flash("error");
+  if (message.length > 0) message = message[0];
+  else message = null;
   res.render("auth/signup", {
     path: "/signup",
     pageTitle: "Signup",
+    errorMessage: message,
   });
 };
 
@@ -58,7 +62,10 @@ exports.postSignup = async (req, res, next) => {
 
   const userWithSameEmail = await User.findOne({ email: email });
 
-  if (userWithSameEmail) return res.redirect("/signup");
+  if (userWithSameEmail) {
+    req.flash("error", "This email is already registerd");
+    return res.redirect("/signup");
+  }
 
   const hashedPassword = await bcrypt.hash(password, 12);
 
