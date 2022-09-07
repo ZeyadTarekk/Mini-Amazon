@@ -55,18 +55,6 @@ const main = async () => {
   // await databaseObject.mongoConnect();
   await mongoose.connect(process.env.MONGODB_URI);
 
-  const user = await User.findOne();
-  if (!user) {
-    const newUser = new User({
-      name: "zeyad",
-      email: "zeyad@g.com",
-      cart: {
-        items: [],
-      },
-    });
-    await newUser.save();
-  }
-
   app.listen(3000);
 };
 
