@@ -11,7 +11,10 @@ exports.postLogin = async (req, res, next) => {
   const user = await User.findById("6315e6995c4dc2cb6c8c58c5");
   req.session.user = user;
   req.session.isLoggedIn = true;
-  res.redirect("/");
+  req.session.save((err) => {
+    if (err) console.log(err);
+    res.redirect("/");
+  });
 };
 
 exports.postLogout = (req, res, next) => {
