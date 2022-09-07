@@ -72,7 +72,7 @@ exports.postAddProduct = async (req, res, next) => {
     price: price,
     description: description,
     imageUrl: photo,
-    userId: req.session.user._id,
+    userId: req.user._id,
   });
   await product.save();
   res.redirect("/products");

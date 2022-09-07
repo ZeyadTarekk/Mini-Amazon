@@ -12,7 +12,7 @@ exports.getIndex = async (req, res, next) => {
 };
 
 exports.getCart = async (req, res, next) => {
-  const userPopulated = await req.session.user.populate("cart.items.productId");
+  const userPopulated = await req.user.populate("cart.items.productId");
   const cartItems = userPopulated.cart.items;
   res.render("shop/cart", {
     pageTitle: "Cart",
@@ -24,14 +24,14 @@ exports.getCart = async (req, res, next) => {
 
 exports.postDeleteCartItem = async (req, res, next) => {
   const productId = req.body.productId;
-  await req.session.user.removeFromCart(productId);
+  await req.user.removeFromCart(productId);
   res.redirect("/cart");
 };
 
 exports.postAddToCart = async (req, res, next) => {
   const prodId = req.body.productId;
   const product = await Product.findById(prodId);
-  req.session.user.addToCart(product);
+  req.user.addToCart(product);
   res.redirect("/cart");
 };
 
@@ -58,7 +58,7 @@ exports.getProudct = async (req, res, next) => {
 };
 
 exports.getOrders = async (req, res, next) => {
-  const userOrders = await Order.find({ "user.userId": req.session.user._id });
+  const userOrders = await Order.find({ "user.userId": req.user._id });
   res.render("shop/orders", {
     pageTitle: "Your Orders",
     path: "/orders",
@@ -68,7 +68,7 @@ exports.getOrders = async (req, res, next) => {
 };
 
 exports.postAddOrder = async (req, res, next) => {
-  const userPopulated = await req.session.user.populate("cart.items.productId");
+  const userPopulated = await req.user.populate("cart.items.productId");
 
   const cartItems = userPopulated.cart.items.map((el) => {
     return { quantity: el.quantity, product: { ...el.productId._doc } };
@@ -76,13 +76,13 @@ exports.postAddOrder = async (req, res, next) => {
 
   const order = new Order({
     user: {
-      name: req.session.user.name,
-      userId: req.session.user._id,
+      name: req.user.name,
+      userId: req.user._id,
     },
     products: cartItems,
   });
   await order.save();
-  await req.session.user.clearCart();
+  await req.user.clearCart();
 
   res.redirect("/orders");
 };
