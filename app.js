@@ -2,7 +2,7 @@ const express = require("express");
 require("dotenv").config();
 const bodyParser = require("body-parser");
 const path = require("path");
-
+const csrf = require("csurf");
 const mongoose = require("mongoose");
 const session = require("express-session");
 const MongoDBStore = require("connect-mongodb-session")(session);
@@ -13,6 +13,8 @@ const adminRoutes = require("./routes/admin");
 const shopRoutes = require("./routes/shop");
 const authRoutes = require("./routes/auth");
 const errorController = require("./controllers/error");
+
+const csrfProtection = csrf();
 
 const app = express();
 const store = new MongoDBStore({
@@ -35,6 +37,8 @@ app.use(
     store: store,
   })
 );
+
+app.use(csrfProtection);
 
 app.use(async (req, res, next) => {
   if (req.session.user) {
