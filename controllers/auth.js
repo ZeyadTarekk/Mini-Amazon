@@ -6,7 +6,7 @@ exports.getLogin = (req, res, next) => {
   res.render("auth/login", {
     path: "/login",
     pageTitle: "Login",
-    isAuthenticated: false,
+    errorMessage: req.flash("error"),
   });
 };
 
@@ -17,7 +17,8 @@ exports.postLogin = async (req, res, next) => {
   if (!user) {
     // wrong email
     console.log("wrong email");
-    return res.redirect("/signup");
+    req.flash("error", "This email is not registerd");
+    return res.redirect("/login");
   }
 
   const hashedRightPassword = user.password;
@@ -36,8 +37,8 @@ exports.postLogin = async (req, res, next) => {
     });
   } else {
     // Wrong Password
-    console.log("wrong Password");
-
+    console.log("Wrong Password");
+    req.flash("error", "Wrong Password");
     res.redirect("/login");
   }
 };
@@ -46,7 +47,6 @@ exports.getSignup = (req, res, next) => {
   res.render("auth/signup", {
     path: "/signup",
     pageTitle: "Signup",
-    isAuthenticated: false,
   });
 };
 
