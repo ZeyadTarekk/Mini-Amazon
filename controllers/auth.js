@@ -16,7 +16,6 @@ exports.postLogin = async (req, res, next) => {
   const user = await User.findOne({ email: email });
   if (!user) {
     // wrong email
-    console.log("wrong email");
     req.flash("error", "This email is not registerd");
     return res.redirect("/login");
   }
@@ -37,7 +36,6 @@ exports.postLogin = async (req, res, next) => {
     });
   } else {
     // Wrong Password
-    console.log("Wrong Password");
     req.flash("error", "Wrong Password");
     res.redirect("/login");
   }
