@@ -48,6 +48,12 @@ app.use(async (req, res, next) => {
   next();
 });
 
+app.use((req, res, next) => {
+  res.locals.isAuthenticated = req.session.isLoggedIn;
+  res.locals.csrfToken = req.csrfToken();
+  next();
+});
+
 // admin/anyRoute
 app.use("/admin", adminRoutes);
 app.use(shopRoutes);

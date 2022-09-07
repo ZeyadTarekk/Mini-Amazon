@@ -7,8 +7,6 @@ exports.getIndex = async (req, res, next) => {
     pageTitle: "Shop",
     prods: products,
     path: "/",
-    isAuthenticated: req.session.isLoggedIn,
-    csrfToken: req.csrfToken(),
   });
 };
 
