@@ -11,13 +11,35 @@ exports.getLogin = (req, res, next) => {
 };
 
 exports.postLogin = async (req, res, next) => {
-  const user = await User.findById("6315e6995c4dc2cb6c8c58c5");
-  req.session.user = user;
-  req.session.isLoggedIn = true;
-  req.session.save((err) => {
-    if (err) console.log(err);
-    res.redirect("/");
-  });
+  const email = req.body.email;
+  const enteredPassword = req.body.password;
+  const user = await User.findOne({ email: email });
+  if (!user) {
+    // wrong email
+    console.log("wrong email");
+    return res.redirect("/signup");
+  }
+
+  const hashedRightPassword = user.password;
+
+  const comparisonResult = await bcrypt.compare(
+    enteredPassword,
+    hashedRightPassword
+  );
+
+  if (comparisonResult) {
+    req.session.user = user;
+    req.session.isLoggedIn = true;
+    req.session.save((err) => {
+      if (err) console.log(err);
+      res.redirect("/");
+    });
+  } else {
+    // Wrong Password
+    console.log("wrong Password");
+
+    res.redirect("/login");
+  }
 };
 
 exports.getSignup = (req, res, next) => {
