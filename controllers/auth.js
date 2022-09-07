@@ -94,7 +94,7 @@ exports.postSignup = async (req, res, next) => {
   try {
     await transporter.sendMail({
       to: email,
-      from: "zeyad@node.com",
+      from: process.env.SENDER_EMAIL,
       subject: "Signup succeeded!",
       html: "<h1>You Successfully signed up!</h1>",
     });
@@ -142,10 +142,10 @@ exports.postReset = async (req, res, next) => {
     try {
       await transporter.sendMail({
         to: req.body.email,
-        from: "zeyad@node.com",
+        from: process.env.SENDER_EMAIL,
         subject: "Password Reset",
         html: `<p>You requested a password reset.</p>
-        <p>Click this <a href="https://localhost:3000/reset/${token}">Link</a> to set a new password.</p>
+        <p>Click this <a href="http://localhost:3000/reset/${token}">Link</a> to set a new password.</p>
         `,
       });
       res.redirect("/");
