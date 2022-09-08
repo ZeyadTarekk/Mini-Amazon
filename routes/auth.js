@@ -11,13 +11,17 @@ router.get("/login", authController.getLogin);
 router.post(
   "/login",
   [
-    check("email").isEmail().withMessage("Please Enter a valid email."),
+    check("email")
+      .isEmail()
+      .withMessage("Please Enter a valid email.")
+      .normalizeEmail(),
     body(
       "password",
       "Please Enter a password with only numbers and text and at least 5 characters."
     )
       .isLength({ min: 5 })
-      .isAlphanumeric(),
+      .isAlphanumeric()
+      .trim(),
   ],
   authController.postLogin
 );
@@ -37,18 +41,22 @@ router.post(
           throw new Error("This email is already registerd");
         }
         return true;
-      }),
+      })
+      .normalizeEmail(),
     body(
       "password",
       "Please Enter a password with only numbers and text and at least 5 characters."
     )
       .isLength({ min: 5 })
-      .isAlphanumeric(),
-    body("confirmPassword").custom((value, { req }) => {
-      if (value !== req.body.password)
-        throw new Error("Confirm password and password must match");
-      else return true;
-    }),
+      .isAlphanumeric()
+      .trim(),
+    body("confirmPassword")
+      .custom((value, { req }) => {
+        if (value !== req.body.password)
+          throw new Error("Confirm password and password must match");
+        else return true;
+      })
+      .trim(),
   ],
   authController.postSignup
 );
