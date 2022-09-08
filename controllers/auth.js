@@ -71,7 +71,6 @@ exports.getSignup = (req, res, next) => {
 exports.postSignup = async (req, res, next) => {
   const email = req.body.email;
   const password = req.body.password;
-  const confirmPassword = req.body.confirmPassword;
 
   const errors = validationResult(req);
   console.log(errors.array());
@@ -81,12 +80,6 @@ exports.postSignup = async (req, res, next) => {
       pageTitle: "Signup",
       errorMessage: errors.array()[0].msg,
     });
-  }
-  const userWithSameEmail = await User.findOne({ email: email });
-
-  if (userWithSameEmail) {
-    req.flash("error", "This email is already registerd");
-    return res.redirect("/signup");
   }
 
   const hashedPassword = await bcrypt.hash(password, 12);
