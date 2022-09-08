@@ -173,5 +173,7 @@ exports.getNewPassword = async (req, res, next) => {
       errorMessage: message,
       userId: neededUser._id.toString(),
     });
+  } else {
+    res.send("Invalid token");
   }
 };
