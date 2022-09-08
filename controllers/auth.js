@@ -172,8 +172,31 @@ exports.getNewPassword = async (req, res, next) => {
       pageTitle: "Reset Your Password",
       errorMessage: message,
       userId: neededUser._id.toString(),
+      passwordToken: token,
     });
   } else {
     res.send("Invalid token");
+  }
+};
+
+exports.postNewPassword = async (req, res, next) => {
+  const newPassword = req.body.password;
+  const userId = req.body.userId;
+  const passwordToken = req.body.passwordToken;
+
+  const neededUser = await User.findOne({
+    resetToken: passwordToken,
+    resetTokenExpiration: { $gt: Date.now() },
+    _id: userId,
+  });
+
+  if (neededUser) {
+    const hashedPassword = await bcrypt.hash(newPassword, 12);
+    neededUser.password = hashedPassword;
+    neededUser.resetToken = undefined;
+    neededUser.resetTokenExpiration = undefined;
+    await neededUser.save();
+    req.flash("error", "password reset succes");
+    res.redirect("/login");
   }
 };
