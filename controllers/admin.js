@@ -43,6 +43,11 @@ exports.postEditProduct = async (req, res, next) => {
   const photo = req.body.photo;
 
   const product = await Product.findById(id);
+
+  if (product.userId !== req.user._id) {
+    return res.redirect("/");
+  }
+
   product.title = title;
   product.price = price;
   product.description = description;
