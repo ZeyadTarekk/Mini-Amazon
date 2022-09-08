@@ -23,6 +23,11 @@ exports.getLogin = (req, res, next) => {
     path: "/login",
     pageTitle: "Login",
     errorMessage: message,
+    oldInput: {
+      email: "",
+      password: "",
+    },
+    validationErrors: [],
   });
 };
 
@@ -35,6 +40,11 @@ exports.postLogin = async (req, res, next) => {
       path: "/login",
       pageTitle: "Login",
       errorMessage: errors.array()[0].msg,
+      oldInput: {
+        email: email,
+        password: enteredPassword,
+      },
+      validationErrors: errors.array(),
     });
   }
   const user = await User.findOne({ email: email });
