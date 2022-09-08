@@ -1,5 +1,5 @@
 require("dotenv").config();
-
+const { validationResult } = require("express-validator/check");
 const crypto = require("crypto");
 const bcrypt = require("bcryptjs");
 const nodemailer = require("nodemailer");
@@ -73,6 +73,15 @@ exports.postSignup = async (req, res, next) => {
   const password = req.body.password;
   const confirmPassword = req.body.confirmPassword;
 
+  const errors = validationResult(req);
+  console.log(errors.array());
+  if (!errors.isEmpty()) {
+    return res.status(422).render("auth/signup", {
+      path: "/signup",
+      pageTitle: "Signup",
+      errorMessage: errors.array()[0].msg,
+    });
+  }
   const userWithSameEmail = await User.findOne({ email: email });
 
   if (userWithSameEmail) {
