@@ -1,7 +1,7 @@
 const Product = require("../models/product");
 
 exports.getAdminProducts = async (req, res, next) => {
-  const products = await Product.find();
+  const products = await Product.find({ userId: req.user._id });
   res.render("admin/products.ejs", {
     pageTitle: "Admin Products",
     path: "/admin/products",
