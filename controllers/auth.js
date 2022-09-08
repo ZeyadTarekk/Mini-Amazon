@@ -50,8 +50,18 @@ exports.postLogin = async (req, res, next) => {
   const user = await User.findOne({ email: email });
   if (!user) {
     // wrong email
-    req.flash("error", "This email is not registerd");
-    return res.redirect("/login");
+    return res.status(422).render("auth/login", {
+      path: "/login",
+      pageTitle: "Login",
+      errorMessage: "This email is not registerd",
+      oldInput: {
+        email: email,
+        password: enteredPassword,
+      },
+      validationErrors: [
+        { param: "email", msg: "This email is not registerd" },
+      ],
+    });
   }
 
   const hashedRightPassword = user.password;
@@ -71,7 +81,16 @@ exports.postLogin = async (req, res, next) => {
   } else {
     // Wrong Password
     req.flash("error", "Wrong Password");
-    res.redirect("/login");
+    return res.status(422).render("auth/login", {
+      path: "/login",
+      pageTitle: "Login",
+      errorMessage: "Wrong Password",
+      oldInput: {
+        email: email,
+        password: enteredPassword,
+      },
+      validationErrors: [{ param: "password", msg: "Wrong Password" }],
+    });
   }
 };
 
