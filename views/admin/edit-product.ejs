@@ -7,26 +7,53 @@
    <%- include('../includes/navigation.ejs') %>
 
     <main>
+        <%if(hasError){ %>
+            <% for(const error of errorMessages){ %>
+            <div class="user-message user-message--error">
+                <%= error.msg %>
+            </div>
+            <% } %>
+            <% }%>
         <form class="product-form" action="/admin/<%= edit? 'edit-product' : 'add-product'%>" method="POST">
             <input type="hidden" name="_csrf" value="<%= csrfToken %>">
             <div class="form-control">
                 <label for="title">Title</label>
-                <input type="text" name="title" id="title" value="<%= edit=='true'? prod.title : '' %>" >
+                <input 
+                class="<%= errorMessages.find(e=>e.param==='title')?'invalid':'' %>"
+                type="text" 
+                name="title" 
+                id="title" 
+                value="<%= (edit || hasError)? prod.title : '' %>" >
             </div>
             <div class="form-control">
                 <label for="photo">Image URL</label>
-                <input type="text" name="photo" id="photo" value="<%= edit=='true'? prod.imageUrl : '' %>"  >
+                <input 
+                class="<%= errorMessages.find(e=>e.param==='photo')?'invalid':'' %>"
+                type="text" 
+                name="photo" 
+                id="photo" 
+                value="<%= (edit || hasError)? prod.imageUrl : '' %>"  >
             </div>
             <div class="form-control">
                 <label for="price">Price</label>
-                <input type="number" name="price" id="price" step="0.01" value="<%= edit=='true'? prod.price : '' %>">
+                <input 
+                class="<%= errorMessages.find(e=>e.param==='price')?'invalid':'' %>"
+                type="number" 
+                name="price" 
+                id="price" 
+                step="0.01" 
+                value="<%= (edit || hasError)? prod.price : '' %>">
             </div>
             <div class="form-control">
                 <label for="desc">Description</label>
-                <textarea name="desc" id="desc" rows="5"><%= edit=='true'? prod.description : '' %></textarea>
+                <textarea 
+                class="<%= errorMessages.find(e=>e.param==='desc')?'invalid':'' %>"
+                name="desc" 
+                id="desc" 
+                rows="5"><%= (edit || hasError)? prod.description : '' %></textarea>
             </div>
             <% if(edit) { %><input type="hidden" name="prodId" value="<%=prod._id%>"> <%}%>
-            <button class="btn" type="submit"><%= edit=='true'? 'Update Product' : 'Add Product' %></button>
+            <button class="btn" type="submit"><%= edit? 'Update Product' : 'Add Product' %></button>
         </form>
     </main>
 <%- include('../includes/end.ejs') %>
