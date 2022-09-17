@@ -96,6 +96,7 @@ exports.postLogin = async (req, res, next) => {
 
 exports.getSignup = (req, res, next) => {
   let message = req.flash("error");
+  console.log("Message", message);
   if (message.length > 0) message = message[0];
   else message = null;
   res.render("auth/signup", {

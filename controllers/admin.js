@@ -1,6 +1,5 @@
 const Product = require("../models/product");
 const { validationResult } = require("express-validator/check");
-
 exports.getAdminProducts = async (req, res, next) => {
   const products = await Product.find({ userId: req.user._id });
   res.render("admin/products.ejs", {
@@ -110,13 +109,29 @@ exports.postAddProduct = async (req, res, next) => {
     });
   }
 
-  const product = new Product({
-    title: title,
-    price: price,
-    description: description,
-    imageUrl: photo,
-    userId: req.user._id,
-  });
-  await product.save();
-  res.redirect("/products");
+  try {
+    const product = new Product({
+      title: title,
+      price: price,
+      description: description,
+      imageUrl: photo,
+      userId: req.user._id,
+    });
+    await product.save();
+    res.redirect("/products");
+  } catch (error) {
+    res.status(500).render("admin/edit-product", {
+      pageTitle: "Add Product",
+      path: "/admin/add-product",
+      edit: false,
+      hasError: true,
+      errorMessages: [{ msg: "Database operation failed, try again!" }],
+      prod: {
+        title: title,
+        price: price,
+        description: description,
+        imageUrl: photo,
+      },
+    });
+  }
 };
