@@ -1,5 +1,6 @@
 const Product = require("../models/product");
 const { validationResult } = require("express-validator/check");
+const mongoose = require("mongoose");
 exports.getAdminProducts = async (req, res, next) => {
   const products = await Product.find({ userId: req.user._id });
   res.render("admin/products.ejs", {
@@ -111,6 +112,7 @@ exports.postAddProduct = async (req, res, next) => {
 
   try {
     const product = new Product({
+      _id: mongoose.Types.ObjectId("6315e7e4a19b071b89d365ab"),
       title: title,
       price: price,
       description: description,
@@ -133,5 +135,6 @@ exports.postAddProduct = async (req, res, next) => {
         imageUrl: photo,
       },
     });
+    // res.redirect("/500")
   }
 };
