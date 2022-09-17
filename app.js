@@ -43,11 +43,16 @@ app.use(csrfProtection);
 app.use(flash());
 
 app.use(async (req, res, next) => {
-  if (req.session.user) {
-    const user = await User.findById(req.session.user._id);
-    req.user = user;
+  try {
+    if (req.session.user) {
+      const user = await User.findById(req.session.user._id);
+      if (!user) return next();
+      req.user = user;
+    }
+    next();
+  } catch (err) {
+    throw new Error(err);
   }
-  next();
 });
 
 app.use((req, res, next) => {
