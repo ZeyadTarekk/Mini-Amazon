@@ -1,6 +1,5 @@
 const Product = require("../models/product");
 const { validationResult } = require("express-validator/check");
-const mongoose = require("mongoose");
 exports.getAdminProducts = async (req, res, next) => {
   const products = await Product.find({ userId: req.user._id });
   res.render("admin/products.ejs", {
@@ -112,7 +111,6 @@ exports.postAddProduct = async (req, res, next) => {
 
   try {
     const product = new Product({
-      _id: mongoose.Types.ObjectId("6315e7e4a19b071b89d365ab"),
       title: title,
       price: price,
       description: description,
@@ -121,20 +119,11 @@ exports.postAddProduct = async (req, res, next) => {
     });
     await product.save();
     res.redirect("/products");
-  } catch (error) {
-    res.status(500).render("admin/edit-product", {
-      pageTitle: "Add Product",
-      path: "/admin/add-product",
-      edit: false,
-      hasError: true,
-      errorMessages: [{ msg: "Database operation failed, try again!" }],
-      prod: {
-        title: title,
-        price: price,
-        description: description,
-        imageUrl: photo,
-      },
-    });
+  } catch (err) {
+    const error = new Error("Creating new product failed");
+    error.httpStatusCode = 500;
+    return next(error);
+
     // res.redirect("/500")
   }
 };
