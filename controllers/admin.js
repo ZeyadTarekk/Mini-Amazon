@@ -44,7 +44,7 @@ exports.postEditProduct = async (req, res, next) => {
   const title = req.body.title;
   const price = req.body.price;
   const description = req.body.desc;
-  const photo = req.body.photo;
+  const photo = req.file;
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(422).render("admin/edit-product", {
@@ -56,7 +56,6 @@ exports.postEditProduct = async (req, res, next) => {
         title: title,
         price: price,
         description: description,
-        imageUrl: photo,
       },
       hasError: true,
       errorMessages: errors.array(),
@@ -72,8 +71,7 @@ exports.postEditProduct = async (req, res, next) => {
   product.title = title;
   product.price = price;
   product.description = description;
-  product.imageUrl = photo;
-
+  if (photo) product.imageUrl = photo.path;
   await product.save();
 
   res.redirect("/admin/products");
@@ -90,6 +88,22 @@ exports.postAddProduct = async (req, res, next) => {
   const price = req.body.price;
   const description = req.body.desc;
   const photo = req.file;
+
+  if (!photo) {
+    return res.status(422).render("admin/edit-product", {
+      pageTitle: "Add Product",
+      path: "/admin/add-product",
+      edit: false,
+      hasError: true,
+      errorMessages: [{ msg: "Invalid image format" }],
+      prod: {
+        title: title,
+        price: price,
+        description: description,
+      },
+    });
+  }
+
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     console.log(errors.array());
@@ -108,12 +122,15 @@ exports.postAddProduct = async (req, res, next) => {
     });
   }
 
+  const imageUrl = photo.path;
+  console.log(imageUrl);
+
   try {
     const product = new Product({
       title: title,
       price: price,
       description: description,
-      imageUrl: photo,
+      imageUrl: imageUrl,
       userId: req.user._id,
     });
     await product.save();

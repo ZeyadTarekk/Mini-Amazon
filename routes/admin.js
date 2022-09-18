@@ -28,7 +28,6 @@ router.post(
   isAuthMiddleware,
   [
     body("title", "Enter a valid title").isString().isLength({ min: 3 }).trim(),
-    body("photo", "Enter a valid image URL").isURL(),
     body("price", "Enter a valid price").isFloat(),
     body("desc", "Enter a valid description")
       .isLength({ min: 5, max: 500 })
