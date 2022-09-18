@@ -6,10 +6,12 @@ const Order = require("../models/order");
 
 const PDFDocument = require("pdfkit");
 
-const ITEMS_PER_PAGE = 1;
+const ITEMS_PER_PAGE = 2;
 
 exports.getIndex = async (req, res, next) => {
-  const page = req.query.page;
+  const page = req.query.page || 1;
+
+  const productsNumber = await Product.find().count();
 
   const products = await Product.find()
     .skip((page - 1) * ITEMS_PER_PAGE)
@@ -18,6 +20,12 @@ exports.getIndex = async (req, res, next) => {
     pageTitle: "Shop",
     prods: products,
     path: "/",
+    currentPage: parseInt(page),
+    hasNextPage: ITEMS_PER_PAGE * page < productsNumber,
+    hasPreviousPage: page > 1,
+    nextPage: parseInt(page) + 1,
+    previousPage: page - 1,
+    lastPage: Math.ceil(productsNumber / ITEMS_PER_PAGE),
   });
 };
 
