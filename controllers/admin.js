@@ -1,4 +1,5 @@
 const Product = require("../models/product");
+const fileHelper = require("../util/file");
 const { validationResult } = require("express-validator/check");
 exports.getAdminProducts = async (req, res, next) => {
   const products = await Product.find({ userId: req.user._id });
@@ -71,7 +72,10 @@ exports.postEditProduct = async (req, res, next) => {
   product.title = title;
   product.price = price;
   product.description = description;
-  if (photo) product.imageUrl = photo.path;
+  if (photo) {
+    fileHelper.deleteFile(product.imageUrl);
+    product.imageUrl = photo.path;
+  }
   await product.save();
 
   res.redirect("/admin/products");
@@ -79,6 +83,8 @@ exports.postEditProduct = async (req, res, next) => {
 
 exports.postDeleteProduct = async (req, res, next) => {
   const id = req.body.prodId;
+  const product = await Product.findById(id);
+  fileHelper.deleteFile(product.imageUrl);
   await Product.deleteOne({ _id: id, userId: req.user._id });
   res.redirect("/admin/products");
 };
