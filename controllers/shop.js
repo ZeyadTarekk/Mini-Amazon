@@ -85,15 +85,26 @@ exports.postAddOrder = async (req, res, next) => {
   res.redirect("/orders");
 };
 
-exports.getInvoice = (req, res, next) => {
+exports.getInvoice = async (req, res, next) => {
   const orderId = req.params.orderId;
+
+  const neededOrder = await Order.findById(orderId);
+
+  if (!neededOrder) return next(new Error("no order found"));
+
+  if (neededOrder.user.userId.toString() !== req.user._id.toString())
+    return next(new Error("Unathorized"));
+
   const invoiceName = `invoice-${orderId}.pdf`;
   const invoicePath = path.join("data", "invoices", invoiceName);
   fs.readFile(invoicePath, (err, data) => {
     if (err) return next(err);
     console.log("Get success");
     res.setHeader("Content-Type", "application/pdf");
-    res.setHeader("Content-Disposition", `attachment; filename="${invoiceName}"`);
+    res.setHeader(
+      "Content-Disposition",
+      `attachment; filename="${invoiceName}"`
+    );
     res.send(data);
   });
 };
