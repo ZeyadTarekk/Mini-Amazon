@@ -26,6 +26,13 @@
                 value="<%= (edit || hasError)? prod.title : '' %>" >
             </div>
             <div class="form-control">
+                <label for="photo">Image</label>
+                <input type="file"
+                name="photo"
+                id="photo"
+                >
+            </div>
+            <!-- <div class="form-control">
                 <label for="photo">Image URL</label>
                 <input 
                 class="<%= errorMessages.find(e=>e.param==='photo')?'invalid':'' %>"
@@ -33,7 +40,7 @@
                 name="photo" 
                 id="photo" 
                 value="<%= (edit || hasError)? prod.imageUrl : '' %>"  >
-            </div>
+            </div> -->
             <div class="form-control">
                 <label for="price">Price</label>
                 <input 
