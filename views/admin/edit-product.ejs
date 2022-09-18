@@ -14,7 +14,7 @@
             </div>
             <% } %>
             <% }%>
-        <form class="product-form" action="/admin/<%= edit? 'edit-product' : 'add-product'%>" method="POST">
+        <form class="product-form" action="/admin/<%= edit? 'edit-product' : 'add-product'%>" method="POST" enctype="multipart/form-data">
             <input type="hidden" name="_csrf" value="<%= csrfToken %>">
             <div class="form-control">
                 <label for="title">Title</label>

@@ -89,8 +89,7 @@ exports.postAddProduct = async (req, res, next) => {
   const title = req.body.title;
   const price = req.body.price;
   const description = req.body.desc;
-  const photo = req.body.photo;
-
+  const photo = req.file;
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     console.log(errors.array());
