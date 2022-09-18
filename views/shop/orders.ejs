@@ -9,21 +9,22 @@
             <h1>Nothing there!</h1>
             <%} else { %>
                 <h3 class="centered">Total Orders: <%=orders.length %></h3>
-                <ul class="orders">
-                <% for(const order of orders){ %>
-                    
-                    <li class="orders__item">
-                        <h1>Order - # <%= order._id %></h1>
-                        <ul class="orders__products">
-                            <% for(const prod of order.products){ %>
-                                <li class="orders__products-item"><%= prod.product.title %> (<%= prod.quantity %>)</li>
+        <ul class="orders">
+        <% for(const order of orders){ %>
+            
+            <li class="orders__item">
+                <h1>Order - # <%= order._id %></h1>
+                <ul class="orders__products">
+                    <% for(const prod of order.products){ %>
+                        <li class="orders__products-item"><%= prod.product.title %> (<%= prod.quantity %>) - <a href="/orders/<%= order._id %>">Invoice</a></li>
 
-                            <% }%>
-                        </ul>
-                    </li>
-                
-                <% }%>
+                    <% }%>
                 </ul>
+                
+            </li>
+        
+        <% }%>
+        </ul>
 
             <% }%>
         </main>

@@ -22,6 +22,8 @@ router.get("/products/:productId", shopController.getProudct);
 
 router.get("/orders", isAuthMiddleware, shopController.getOrders);
 
+router.get("/orders/:orderId", isAuthMiddleware, shopController.getInvoice);
+
 router.post("/create-order", isAuthMiddleware, shopController.postAddOrder);
 
 module.exports = router;
