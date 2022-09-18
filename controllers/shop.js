@@ -4,6 +4,8 @@ const path = require("path");
 const Product = require("../models/product");
 const Order = require("../models/order");
 
+const PDFDocument = require("pdfkit");
+
 exports.getIndex = async (req, res, next) => {
   const products = await Product.find();
   res.render("shop/index", {
@@ -98,8 +100,30 @@ exports.getInvoice = async (req, res, next) => {
   const invoiceName = `invoice-${orderId}.pdf`;
   const invoicePath = path.join("data", "invoices", invoiceName);
 
-  const file = fs.createReadStream(invoicePath);
+  const pdfDoc = new PDFDocument();
+
   res.setHeader("Content-Type", "application/pdf");
-  res.setHeader("Content-Disposition", `attachment; filename="${invoiceName}"`);
-  file.pipe(res);
+  res.setHeader("Content-Disposition", `inline; filename="${invoiceName}"`);
+
+  pdfDoc.pipe(fs.createWriteStream(invoicePath));
+  pdfDoc.pipe(res);
+
+  pdfDoc.fontSize(26).text("Invoice", { underline: true });
+  pdfDoc.text("----------------------------------");
+
+  let totalPrice = 0;
+
+  for (const product of neededOrder.products) {
+    totalPrice += product.quantity * product.product.price;
+    pdfDoc
+      .fontSize(14)
+      .text(
+        `${product.product.title} - ${product.quantity}x$${product.product.price}`
+      );
+  }
+  pdfDoc.fontSize(26).text("----------------------------------");
+
+  pdfDoc.fontSize(20).text("Total Price: $" + totalPrice);
+
+  pdfDoc.end();
 };
