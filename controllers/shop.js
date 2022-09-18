@@ -53,11 +53,23 @@ exports.postAddToCart = async (req, res, next) => {
 };
 
 exports.getProductsList = async (req, res, next) => {
-  const results = await Product.find();
+  const page = req.query.page || 1;
+
+  const productsNumber = await Product.find().count();
+
+  const results = await Product.find()
+    .skip((page - 1) * ITEMS_PER_PAGE)
+    .limit(ITEMS_PER_PAGE);
   res.render("shop/product-list", {
     pageTitle: "Products",
     prods: results,
     path: "/products",
+    currentPage: parseInt(page),
+    hasNextPage: ITEMS_PER_PAGE * page < productsNumber,
+    hasPreviousPage: page > 1,
+    nextPage: parseInt(page) + 1,
+    previousPage: page - 1,
+    lastPage: Math.ceil(productsNumber / ITEMS_PER_PAGE),
   });
 };
 
