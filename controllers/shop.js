@@ -153,3 +153,20 @@ exports.getInvoice = async (req, res, next) => {
 
   pdfDoc.end();
 };
+
+exports.getCheckout = async (req, res, next) => {
+  const userPopulated = await req.user.populate("cart.items.productId");
+
+  const products = userPopulated.cart.items;
+  let totalSum = 0;
+  for (const prod of products) {
+    totalSum += prod.quantity * prod.productId.price;
+  }
+
+  res.render("shop/checkout", {
+    pageTitle: "Checkout",
+    products: products,
+    path: "/checkout",
+    totalSum: totalSum,
+  });
+};
