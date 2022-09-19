@@ -81,12 +81,16 @@ exports.postEditProduct = async (req, res, next) => {
   res.redirect("/admin/products");
 };
 
-exports.postDeleteProduct = async (req, res, next) => {
-  const id = req.body.prodId;
-  const product = await Product.findById(id);
-  fileHelper.deleteFile(product.imageUrl);
-  await Product.deleteOne({ _id: id, userId: req.user._id });
-  res.redirect("/admin/products");
+exports.deleteProduct = async (req, res, next) => {
+  try {
+    const id = req.params.productId;
+    const product = await Product.findById(id);
+    fileHelper.deleteFile(product.imageUrl);
+    await Product.deleteOne({ _id: id, userId: req.user._id });
+    res.status(200).json({ message: "Success!" });
+  } catch (err) {
+    res.status(500).json({ message: "Deleting product failed." });
+  }
 };
 
 exports.postAddProduct = async (req, res, next) => {
