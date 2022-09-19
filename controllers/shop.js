@@ -1,6 +1,10 @@
 const fs = require("fs");
 const path = require("path");
 
+const stripe = require("stripe")(
+  "sk_test_51LjczpLhcmFB7oqy6EQaltVvJr5EZMImn67ohWjhl9QgfQbvykfZzAzoOBXfVG7l9g6dArir0iRwqpstRpQ39ulP00gztaVCAx"
+);
+
 const Product = require("../models/product");
 const Order = require("../models/order");
 
@@ -113,6 +117,26 @@ exports.postAddOrder = async (req, res, next) => {
   res.redirect("/orders");
 };
 
+exports.getCheckoutSuccess = async (req, res, next) => {
+  const userPopulated = await req.user.populate("cart.items.productId");
+
+  const cartItems = userPopulated.cart.items.map((el) => {
+    return { quantity: el.quantity, product: { ...el.productId._doc } };
+  });
+
+  const order = new Order({
+    user: {
+      userId: req.user._id,
+      email: req.user.email,
+    },
+    products: cartItems,
+  });
+  await order.save();
+  await req.user.clearCart();
+
+  res.redirect("/orders");
+};
+
 exports.getInvoice = async (req, res, next) => {
   const orderId = req.params.orderId;
 
@@ -163,10 +187,30 @@ exports.getCheckout = async (req, res, next) => {
     totalSum += prod.quantity * prod.productId.price;
   }
 
+  const sessionKey = await stripe.checkout.sessions.create({
+    payment_method_types: ["card"],
+    line_items: products.map((p) => {
+      return {
+        price_data: {
+          currency: "usd",
+          product_data: {
+            name: p.productId.title,
+          },
+          unit_amount: p.productId.price * 100,
+        },
+        quantity: p.quantity,
+      };
+    }),
+    mode: "payment",
+    success_url: req.protocol + "://" + req.get("host") + "/checkout/success",
+    cancel_url: req.protocol + "://" + req.get("host") + "/checkout/cancel",
+  });
+
   res.render("shop/checkout", {
     pageTitle: "Checkout",
     products: products,
     path: "/checkout",
     totalSum: totalSum,
+    sessionId: sessionKey.id,
   });
 };
