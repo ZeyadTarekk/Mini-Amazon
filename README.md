@@ -29,7 +29,7 @@
 - Each user can create products and upload an image to the product.
 - Pagination is supported in the products page.
 - Each user can edit or delete his products.
-- Each user can generate a pdf invoice to any order he has done.
+- Each user can generate a PDF invoice to any order he has done.
 - Each user can pay to make his order to test payments enter `4242 4242 4242 4242` as a card number and any expiry date in the future to proceed with the payment.
 
 ## 🏁 Getting Started <a name = "get-started"></a>
@@ -82,7 +82,7 @@ Open http://localhost:3000 with your browser to see the result
 - **csurf to generate tokens**
 - **multer to upload files (products images)**
 - **nodemailer to send mails**
-- **pdfkit to generate pdf invoices on each order**
+- **pdfkit to generate PDF invoices on each order**
 - **stripe to allow payments**
 
 ## 📷 Demo Screenshots <a name = "Screenshots"></a>
@@ -119,7 +119,7 @@ Open http://localhost:3000 with your browser to see the result
    <hr>
 <h3 align='left'>Generated Invoice</h3>
    <img  src="screenshots/s15.png"></a>
-   <h3 align='center'>You can see the generated pdf in data/invoices folder</h3>
+   <h3 align='center'>You can see the generated PDF in data/invoices folder</h3>
    <hr>
 <h3 align='left'>Admin Products</h3>
 <h4 align='left'>Owner User</h4>
