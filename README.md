@@ -23,7 +23,7 @@
 ## 📙 About <a name = "about"></a>
 
 - A fullstack Ecommerce application.
-- User can signup to create account and receive email reagarding the registration.
+- User can signup to create account and receive email regarding the registration.
 - User can reset his password by a link sent to him through the email that is valid for 1 hour only.
 - Each user has a cart and orders page.
 - Each user can create products and upload an image to the product.
@@ -63,7 +63,7 @@ npm install
 
 - `MONGODB_URI` Your MongoDB connection string like this `mongodb://localhost:27017/shop`
 - `API_KEY` Sendgrid api key or contact me to get mine
-- `SENDER_EMAIL` Your verified Sender email at sendgrid ot contact me to get mine
+- `SENDER_EMAIL` Your verified Sender email at sendgrid or contact me to get mine
 
 2. **_Running on development mode_**
 
