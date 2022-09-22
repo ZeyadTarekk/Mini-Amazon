@@ -1,6 +1,6 @@
 const Product = require("../models/product");
 const fileHelper = require("../util/file");
-const { validationResult } = require("express-validator/check");
+const { validationResult } = require("express-validator");
 exports.getAdminProducts = async (req, res, next) => {
   const products = await Product.find({ userId: req.user._id });
   res.render("admin/products.ejs", {
