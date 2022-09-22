@@ -1,5 +1,3 @@
-### remember to add the env variables to the readme
-
 <div align="center">
 
 [![GitHub contributors](https://img.shields.io/github/contributors/ZeyadTarekk/Mini-Amazon)](https://github.com/ZeyadTarekk/Mini-Amazon/contributors)
