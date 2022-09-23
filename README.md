@@ -23,6 +23,7 @@
 ## 📙 About <a name = "about"></a>
 
 - A fullstack Ecommerce application.
+- MVC architecture is used.
 - User can signup to create account and receive email regarding the registration.
 - User can reset his password by a link sent to him through the email that is valid for 1 hour only.
 - Each user has a cart and orders page.
@@ -78,6 +79,7 @@ Open http://localhost:3000 with your browser to see the result
 - **Node.js**
 - **Express.js**
 - **MongoDB**
+- **Mongoose**
 - **bcryptjs to encrypt passwords**
 - **csurf to generate tokens**
 - **multer to upload files (products images)**
