@@ -14,7 +14,7 @@ router.post(
     check("email")
       .isEmail()
       .withMessage("Please Enter a valid email.")
-      .normalizeEmail(),
+      .toLowerCase(),
     body(
       "password",
       "Please Enter a password with only numbers and text and at least 5 characters."
@@ -33,6 +33,7 @@ router.post(
   [
     check("email")
       .isEmail()
+
       .withMessage("Please Enter a valid email.")
       .custom(async (value) => {
         const userWithSameEmail = await User.findOne({ email: value });
@@ -42,7 +43,7 @@ router.post(
         }
         return true;
       })
-      .normalizeEmail(),
+      .toLowerCase(),
     body(
       "password",
       "Please Enter a password with only numbers and text and at least 5 characters."
