@@ -131,7 +131,7 @@ const main = async () => {
   // await databaseObject.mongoConnect();
   await mongoose.connect(process.env.MONGODB_URI);
 
-  app.listen(3000);
+  app.listen(process.env.PORT || 3000);
 };
 
 main();
