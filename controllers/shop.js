@@ -1,9 +1,7 @@
 const fs = require("fs");
 const path = require("path");
-
-const stripe = require("stripe")(
-  "sk_test_51LjczpLhcmFB7oqy6EQaltVvJr5EZMImn67ohWjhl9QgfQbvykfZzAzoOBXfVG7l9g6dArir0iRwqpstRpQ39ulP00gztaVCAx"
-);
+require("dotenv").config();
+const stripe = require("stripe")(process.env.STRIPE_KEY);
 
 const Product = require("../models/product");
 const Order = require("../models/order");
