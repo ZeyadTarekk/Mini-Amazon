@@ -1,6 +1,7 @@
 const express = require("express");
 
 const helmet = require("helmet");
+const compression = require("compression");
 require("dotenv").config();
 const bodyParser = require("body-parser");
 const path = require("path");
@@ -23,6 +24,7 @@ const csrfProtection = csrf();
 const app = express();
 
 app.use(helmet());
+app.use(compression());
 
 const store = new MongoDBStore({
   uri: process.env.MONGODB_URI,
