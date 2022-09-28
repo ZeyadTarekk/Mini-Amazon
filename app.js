@@ -32,7 +32,7 @@ const accessLogStream = fs.createWriteStream(
   }
 );
 
-app.use(helmet());
+// app.use(helmet());
 app.use(compression());
 app.use(
   morgan("combined", {
