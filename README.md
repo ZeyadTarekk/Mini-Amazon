@@ -63,8 +63,9 @@ npm install
 1. **_Create .env file and add your environment variables_**
 
 - `MONGODB_URI` Your MongoDB connection string like this `mongodb://localhost:27017/shop`
-- `API_KEY` Sendgrid api key or contact me to get mine
+- `SENDGRID_API_KEY` Sendgrid api key or contact me to get mine
 - `SENDER_EMAIL` Your verified Sender email at sendgrid or contact me to get mine
+- `STRIPE_KEY` Stripe API key or contact me to get mine
 
 2. **_Running on development mode_**
 
