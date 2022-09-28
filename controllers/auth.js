@@ -197,7 +197,7 @@ exports.postReset = async (req, res, next) => {
         from: process.env.SENDER_EMAIL,
         subject: "Password Reset",
         html: `<p>You requested a password reset.</p>
-        <p>Click this <a href="http://localhost:3000/reset/${token}">Link</a> to set a new password.</p>
+        <p>Click this <a href="${process.env.HOST}/reset/${token}">Link</a> to set a new password.</p>
         `,
       });
       res.redirect("/");
