@@ -1,4 +1,6 @@
 const express = require("express");
+
+const helmet = require("helmet");
 require("dotenv").config();
 const bodyParser = require("body-parser");
 const path = require("path");
@@ -19,6 +21,9 @@ const errorController = require("./controllers/error");
 const csrfProtection = csrf();
 
 const app = express();
+
+app.use(helmet());
+
 const store = new MongoDBStore({
   uri: process.env.MONGODB_URI,
   collection: "sessions",
