@@ -2,9 +2,11 @@ const express = require("express");
 
 const helmet = require("helmet");
 const compression = require("compression");
+const morgan = require("morgan");
 require("dotenv").config();
 const bodyParser = require("body-parser");
 const path = require("path");
+const fs = require("fs");
 const csrf = require("csurf");
 const mongoose = require("mongoose");
 const session = require("express-session");
@@ -23,8 +25,20 @@ const csrfProtection = csrf();
 
 const app = express();
 
+const accessLogStream = fs.createWriteStream(
+  path.join(__dirname, "access.log"),
+  {
+    flags: "a",
+  }
+);
+
 app.use(helmet());
 app.use(compression());
+app.use(
+  morgan("combined", {
+    stream: accessLogStream,
+  })
+);
 
 const store = new MongoDBStore({
   uri: process.env.MONGODB_URI,
