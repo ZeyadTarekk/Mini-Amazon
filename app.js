@@ -129,9 +129,14 @@ app.use((error, req, res, next) => {
 
 const main = async () => {
   // await databaseObject.mongoConnect();
-  await mongoose.connect(process.env.MONGODB_URI);
+  try {
+    await mongoose.connect(process.env.MONGODB_URI);
+  } catch (err) {
+    console.log(err.message);
+  }
 
   app.listen(process.env.PORT || 3000);
+  console.log("Listening on port 3000");
 };
 
 main();
